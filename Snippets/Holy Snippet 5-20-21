@@ -1037,7 +1037,7 @@ A[3] = function(icon, isMulti)
 				end            
 
 				if A.CrusaderStrike:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and A.CrusaderStrike:IsInRange(unitID) and IsUnitEnemy(unitID) and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 
-				and not Unit(target):IsDead() and (A.CrusadersMight:IsTalentLearned() and (Player:HolyPower() == 5 and A.HolyShock:GetCooldown() >= 1.5 or ((Player:HolyPower() < 5 and A.HolyShock:GetCooldown() >= 0.8) or (A.HolyShock:GetCooldown() == 0 and A.CrusaderStrike:GetSpellCharges() == 2 and Player:HolyPower() < 5))) or not A.CrusadersMight:IsTalentLearned() and Player:HolyPower() < 5) then
+				and not Unit(target):IsDead() and (A.CrusadersMight:IsTalentLearned() and (Player:HolyPower() == 5 and A.HolyShock:GetCooldown() >= 1.5 or ((Player:HolyPower() < 5 and A.HolyShock:GetCooldown() >= 1.0) or (A.HolyShock:GetCooldown() == 0 and A.CrusaderStrike:GetSpellCharges() == 2 and Player:HolyPower() < 5))) or not A.CrusadersMight:IsTalentLearned() and Player:HolyPower() < 5) then
 					return A.CrusaderStrike:Show(icon)        
 				end
 
@@ -1287,4 +1287,3 @@ A[6] = function(icon)
 end 
 A[7] = nil 
 A[8] = nil 
-
