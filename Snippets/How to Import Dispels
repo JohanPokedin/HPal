@@ -1,0 +1,5 @@
+Copy and paste the text of the snippet with the matching section in your World of Warcraft/_retail_/WTF/Account/#########/SavedVariables/TellMeWhen.lua file.
+
+This snippet contains optimized 9.0.5 dispels for Paladin in PVE and contains many dispels for PVP as well. 9.1 updates have not been made.
+
+WARNING: I only recommend doing this if you have not already created an optimized Dispel list involving other classes, such as Resto Druid, etc. This will OVERWRITE your current dispel lists.
