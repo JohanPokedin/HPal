@@ -565,7 +565,7 @@ A[3] = function(icon, isMulti)
 		
 		233397, 55095, 191587,
 		
-		116, 118, 120, 122, 339, 589, 853, 5484, 5782, 8122, 9484, 12654, 15487, 20066, 31589, 31661, 32390, 48181, 54644, 61391, 63106, 105421, 118905, 146739, 157736, 164812, 164815, 179057, 183218, 196840, 205708, 209749,
+		116, 118, 120, 122, 339, 3355, 589, 853, 5484, 5782, 8122, 9484, 12654, 15487, 20066, 31589, 31661, 32390, 48181, 54644, 61391, 63106, 105421, 118905, 146739, 157736, 164812, 164815, 179057, 183218, 196840, 205708, 209749,
 		217832, 226943, 228358, 240574, 247456, 257284, 314793, 317009, 321712, 323673, 325203
 		
     }
@@ -773,12 +773,12 @@ A[3] = function(icon, isMulti)
         end
         
         --Holy Light Divine Favor w/ Infusion
-        if A.HolyLight:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) < 0.8 and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and Unit(player):HasBuffs(A.DivineFavor.ID, true) > 0 and Unit(unitID):HealthDeficit() >= ((WordofGloryHP/1.211) * 1.3 * AvengingWrathMultiplier * StatMultiplier * 2) and not Unit(unitID):IsDead() and Unit(player):HasBuffs(A.InfusionofLightBuff.ID, true) > 2.3 + GetCurrentGCD() and Unit(unitID):HealthPercent() <= HolyLightHP and Unit(player):GetCurrentSpeed() == 0 then
+        if A.HolyLight:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) < 0.8 and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and Unit(player):HasBuffs(A.DivineFavor.ID, true) > 0 and Unit(unitID):HealthDeficit() >= ((WordofGloryHP/1.211) * 1.3 * AvengingWrathMultiplier * StatMultiplier * 1.5) and not Unit(unitID):IsDead() and Unit(player):HasBuffs(A.InfusionofLightBuff.ID, true) > 2.3 + GetCurrentGCD() and Unit(unitID):HealthPercent() <= HolyLightHP and Unit(player):GetCurrentSpeed() == 0 then
             return A.HolyLight:Show(icon)
         end    
         
         --Holy Light Divine Favor w/o Infusion
-        if A.HolyLight:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) < 0.8 and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and Unit(player):HasBuffs(A.DivineFavor.ID, true) > 0 and Unit(unitID):HealthDeficit() >= ((WordofGloryHP/1.211) * AvengingWrathMultiplier * StatMultiplier * 2) and not Unit(unitID):IsDead() and Unit(unitID):HealthPercent() <= HolyLightHP and Unit(player):GetCurrentSpeed() == 0 then
+        if A.HolyLight:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) < 0.8 and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and Unit(player):HasBuffs(A.DivineFavor.ID, true) > 0 and Unit(unitID):HealthDeficit() >= ((WordofGloryHP/1.211) * AvengingWrathMultiplier * StatMultiplier * 1.5) and not Unit(unitID):IsDead() and Unit(unitID):HealthPercent() <= HolyLightHP and Unit(player):GetCurrentSpeed() == 0 then
             return A.HolyLight:Show(icon)
         end    
         
