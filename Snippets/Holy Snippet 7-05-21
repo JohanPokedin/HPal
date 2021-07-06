@@ -711,7 +711,7 @@ A[3] = function(icon, isMulti)
                 if Unit(getmembersAll[i].Unit):GetRange() <= 40 then 
                     if not Unit(getmembersAll[i].Unit):IsPet() and Unit(getmembersAll[i].Unit):HasDeBuffs(A.Cyclone.ID) == 0 and not Unit(getmembersAll[i].Unit):IsDead() and A.LayOnHands:IsReadyByPassCastGCD(getmembersAll[i].Unit) and (Unit(getmembersAll[i].Unit):HealthPercent() <= 20 
                         and Unit(getmembersAll[i].Unit):TimeToDie() <= 2) and Unit(getmembersAll[i].Unit):HasDeBuffs(A.Forbearance.ID, true) == 0 then
-                        HealingEngine.SetTarget(getmembersAll[i].Unit, 0.3)    -- Add 1sec delay in case of emergency switch     
+                        HealingEngine.SetTarget(getmembersAll[i].Unit, 0.5)    -- Add 1sec delay in case of emergency switch     
                         return A.LayOnHands:Show(icon)                        
                     end                    
                 end                
@@ -743,7 +743,7 @@ A[3] = function(icon, isMulti)
                 if not Unit(getmembersAll[i].Unit):IsPet() and not Unit(getmembersAll[i].Unit):IsDead() and A.BlessingofProtection:IsReadyByPassCastGCD(getmembersAll[i].Unit) 
                 and Unit(getmembersAll[i].Unit):HasDeBuffs(A.Forbearance.ID) == 0 and Unit(getmembersAll[i].Unit):HasBuffs(A.Combustion.ID) > 0
                 and Unit(getmembersAll[i].Unit):IsTanking() and not Unit(getmembersAll[i].Unit):Role("TANK") and not UnitIsUnit(getmembersAll[i].Unit, player) and (Unit(getmembersAll[i].Unit):HasBuffs("TotalImun") == 0 or Unit(getmembersAll[i].Unit):HasBuffs("DamagePhysImun") == 0) then
-                    HealingEngine.SetTarget(getmembersAll[i].Unit, 0.3)       
+                    HealingEngine.SetTarget(getmembersAll[i].Unit, 0.5)       
                     return A.BlessingofProtection:Show(icon)                        
                 end                    
             end                
@@ -898,25 +898,25 @@ A[3] = function(icon, isMulti)
                     for x = 1, #IsCCDebuff do
                         local name, rank, icon, count, debuffType = UnitDebuff(unitID, i) 
                         if debuffType == IsCCDebuff[x] and Unit(IsCCDebuff[i].Unit):HasDeBuffs(342938) == 0 and CCTotal - CCRemaining >= 0.5 and Unit(IsCCDebuff[i].Unit):HasDeBuffs(A.Cyclone.ID) == 0 and AuraIsValid(IsCCDebuff[i].Unit, "UseDispel", "Dispel") then
-                            HealingEngine.SetTarget(IsCCDebuff[i].Unit, 0.3)
+                            HealingEngine.SetTarget(IsCCDebuff[i].Unit, 0.5)
                         end
                     end
                     for x = 1, #IsSlowDebuff do
                         local name, rank, icon, count, debuffType = UnitDebuff(unitID, i) 
                         if debuffType == IsSlowDebuff[x] and Unit(IsSlowDebuff[i].Unit):HasDeBuffs(342938) == 0 and SlowTotal - SlowRemaining >= 0.5 and Unit(IsSlowDebuff[i].Unit):HasDeBuffs(A.Cyclone.ID) == 0 and AuraIsValid(IsSlowDebuff[i].Unit, "UseDispel", "Dispel") and Unit(IsSlowDebuff[i].Unit):HasSpec(PVPMELEE) then
-                            HealingEngine.SetTarget(IsSlowDebuff[i].Unit, 0.3)
+                            HealingEngine.SetTarget(IsSlowDebuff[i].Unit, 0.5)
                         end
                     end
                     for x = 1, #IsSlowDebuff do
                         local name, rank, icon, count, debuffType = UnitDebuff(unitID, i) 
                         if debuffType == IsSlowDebuff[x] and Unit(IsSlowDebuff[i].Unit):HasDeBuffs(342938) == 0 and SlowTotal - SlowRemaining >= 0.5 and AuraIsValid(IsSlowDebuff[i].Unit, "UseDispel", "Dispel") and Unit(IsSlowDebuff[i].Unit):HasDeBuffs(A.Cyclone.ID) == 0 then
-                            HealingEngine.SetTarget(IsSlowDebuff[i].Unit, 0.3)
+                            HealingEngine.SetTarget(IsSlowDebuff[i].Unit, 0.5)
                         end
                     end
                     for x = 1, #IsDoTDebuff do                    
                         local name, rank, icon, count, debuffType = UnitDebuff(unitID, i) 
                         if debuffType == IsDoTDebuff[x] and Unit(IsDoTDebuff[i].Unit):HasDeBuffs(342938) == 0 and DoTTotal - DoTRemaining >= 0.5 and AuraIsValid(IsDoTDebuff[i].Unit, "UseDispel", "Dispel") and Unit(IsDoTDebuff[i].Unit):HasDeBuffs(A.Cyclone.ID) == 0 then
-                            HealingEngine.SetTarget(IsDoTDebuff[i].Unit, 0.3)
+                            HealingEngine.SetTarget(IsDoTDebuff[i].Unit, 0.5)
                         end
                     end
                 end
@@ -925,7 +925,7 @@ A[3] = function(icon, isMulti)
                 for i = 1, #getmembersAll do 
                     if Unit(getmembersAll[i].Unit):GetRange() <= 40 and not Unit(getmembersAll[i].Unit):IsDead() and Unit(getmembersAll[i].Unit):HasBuffs(A.BlessingofFreedom.ID) == 0 
                     and AuraIsValid(getmembersAll[i].Unit, true, "BlessingofFreedom") and Unit(getmembersAll[i].Unit):HasSpec(PVPMELEE) and Unit(getmembersAll[i].Unit):HasDeBuffs(A.Cyclone.ID) == 0 then  
-                        HealingEngine.SetTarget(getmembersAll[i].Unit, 0.3)                                      
+                        HealingEngine.SetTarget(getmembersAll[i].Unit, 0.5)                                      
                     end                
                 end
             end
@@ -935,7 +935,7 @@ A[3] = function(icon, isMulti)
                 for i = 1, #getmembersAll do 
                     if Unit(getmembersAll[i].Unit):HasDeBuffs(350713) > 0 and not Unit(getmembersAll[i].Unit):HasSpec(PVEMELEE) and Unit(getmembersAll[i].Unit):GetRange() <= 40 and not Unit(getmembersAll[i].Unit):IsDead() and AuraIsValid(getmembersAll[i].Unit, "UseDispel", "Dispel") and PVEDispelTotal - PVEDispelRemaining >= 0.5
                     and Unit(getmembersAll[i].Unit):HasDeBuffs(342938) == 0 and Unit(getmembersAll[i].Unit):HasDeBuffs(A.Cyclone.ID) == 0 then  
-                        HealingEngine.SetTarget(getmembersAll[i].Unit, 0.3)                                      
+                        HealingEngine.SetTarget(getmembersAll[i].Unit, 0.5)                                      
                     end                
                 end
             end
@@ -944,7 +944,7 @@ A[3] = function(icon, isMulti)
                 for i = 1, #getmembersAll do 
                     if Unit(getmembersAll[i].Unit):HasDeBuffs(350713) > 0 and Unit(getmembersAll[i].Unit):HasSpec(PVEMELEE) and Unit(getmembersAll[i].Unit):GetRange() <= 40 and not Unit(getmembersAll[i].Unit):IsDead() and AuraIsValid(getmembersAll[i].Unit, "UseDispel", "Dispel") and PVEDispelTotal - PVEDispelRemaining >= 0.5
                     and Unit(getmembersAll[i].Unit):HasDeBuffs(342938) == 0 and Unit(getmembersAll[i].Unit):HasDeBuffs(A.Cyclone.ID) == 0 then  
-                        HealingEngine.SetTarget(getmembersAll[i].Unit, 0.3)                                      
+                        HealingEngine.SetTarget(getmembersAll[i].Unit, 0.5)                                      
                     end                
                 end
             end
@@ -953,7 +953,7 @@ A[3] = function(icon, isMulti)
                 for i = 1, #getmembersAll do 
                     if Unit(getmembersAll[i].Unit):HasDeBuffs(350713) == 0 and Unit(getmembersAll[i].Unit):GetRange() <= 40 and not Unit(getmembersAll[i].Unit):IsDead() and AuraIsValid(getmembersAll[i].Unit, "UseDispel", "Dispel") and PVEDispelTotal - PVEDispelRemaining >= 0.5
                     and Unit(getmembersAll[i].Unit):HasDeBuffs(342938) == 0 and Unit(getmembersAll[i].Unit):HasDeBuffs(A.Cyclone.ID) == 0 then  
-                        HealingEngine.SetTarget(getmembersAll[i].Unit, 0.3)                                      
+                        HealingEngine.SetTarget(getmembersAll[i].Unit, 0.5)                                      
                     end                
                 end
             end
@@ -962,7 +962,7 @@ A[3] = function(icon, isMulti)
                 for i = 1, #getmembersAll do 
                     if Unit(getmembersAll[i].Unit):GetRange() <= 40 and Unit(getmembersAll[i].Unit):GetCurrentSpeed() <= 70 and not Unit(getmembersAll[i].Unit):IsDead() and Unit(getmembersAll[i].Unit):HasBuffs(A.BlessingofFreedom.ID) == 0 
                     and AuraIsValid(getmembersAll[i].Unit, true, "BlessingofFreedom") and PVEBOFTotal - PVEBOFRemaining >= 0.5 and Unit(getmembersAll[i].Unit):HasDeBuffs(A.Cyclone.ID) == 0 then  
-                        HealingEngine.SetTarget(getmembersAll[i].Unit, 0.3)                                      
+                        HealingEngine.SetTarget(getmembersAll[i].Unit, 0.5)                                      
                     end                
                 end
             end
