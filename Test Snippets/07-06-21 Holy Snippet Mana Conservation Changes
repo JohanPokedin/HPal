@@ -621,7 +621,7 @@ A[3] = function(icon, isMulti)
                     return A.Consecration:Show(icon)
                 end
                 
-                if A.ShieldoftheRighteous:IsReady(player) and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and Unit(unitID):GetRange() <= 5 and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and (HealingEngine.GetBelowHealthPercentUnits(90, 40) < 1 or TeamCache.Friendly.Size <= 2) then
+                if A.ShieldoftheRighteous:IsReady(player) and Player:HolyPower() >= GetToggle(2, "ShieldoftheRighteousHP") and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and Unit(unitID):GetRange() <= 5 and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and (HealingEngine.GetBelowHealthPercentUnits(90, 40) < 1 or TeamCache.Friendly.Size <= 2) then
                     return A.ShieldoftheRighteous:Show(icon)
                 end
                 
@@ -1234,7 +1234,7 @@ A[3] = function(icon, isMulti)
                 (not A.WordofGlory:IsReady() or A.WordofGlory:IsReady() and Unit(unitID):HealthDeficit() < (WordofGloryHP * StatMultiplier * AvengingWrathMultiplier))) then 
                 
                 --Flash of Light Infusion proc
-                if A.FlashofLight:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) < Player:Execute_Time(A.FlashofLight.ID) and Unit(player):HasBuffs(A.DivineFavor.ID, true) == 0 and not Unit(unitID):IsDead() and Unit(player):HasBuffs(A.InfusionofLightBuff.ID, true) > 1.4 + A.GetCurrentGCD() and Unit(unitID):HealthDeficit() >= (FlashofLightHP * StatMultiplier * AvengingWrathMultiplier) and Unit(unitID):TimeToDie() > Player:Execute_Time(A.FlashofLight.ID) and Unit(unitID):TimeToDie() < Player:Execute_Time(A.FlashofLight.ID) * 3 and Unit(player):GetCurrentSpeed() == 0 then
+                if A.FlashofLight:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) < Player:Execute_Time(A.FlashofLight.ID) and Unit(player):HasBuffs(A.DivineFavor.ID, true) == 0 and not Unit(unitID):IsDead() and Unit(player):HasBuffs(A.InfusionofLightBuff.ID, true) > 1.4 + A.GetCurrentGCD() and Unit(unitID):HealthDeficit() >= (FlashofLightHP * StatMultiplier * AvengingWrathMultiplier) and Unit(unitID):TimeToDie() > Player:Execute_Time(A.FlashofLight.ID) and Unit(unitID):TimeToDie() < 8 and Unit(player):GetCurrentSpeed() == 0 then
                     return A.FlashofLight:Show(icon)
                 end
                 
@@ -1244,7 +1244,7 @@ A[3] = function(icon, isMulti)
                 end    
                 
                 --Flash of Light no infusion
-                if A.FlashofLight:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) < Player:Execute_Time(A.FlashofLight.ID) and Unit(player):HasBuffs(A.DivineFavor.ID, true) == 0 and not Unit(unitID):IsDead() and Unit(unitID):HealthDeficit() >= (FlashofLightHP * StatMultiplier * AvengingWrathMultiplier) and Unit(unitID):TimeToDie() > Player:Execute_Time(A.FlashofLight.ID) and Unit(unitID):TimeToDie() < Player:Execute_Time(A.FlashofLight.ID) * 3 and Unit(player):GetCurrentSpeed() == 0 then
+                if A.FlashofLight:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) < Player:Execute_Time(A.FlashofLight.ID) and Unit(player):HasBuffs(A.DivineFavor.ID, true) == 0 and not Unit(unitID):IsDead() and Unit(unitID):HealthDeficit() >= (FlashofLightHP * StatMultiplier * AvengingWrathMultiplier) and Unit(unitID):TimeToDie() > Player:Execute_Time(A.FlashofLight.ID) and Unit(unitID):TimeToDie() < 8 and Unit(player):GetCurrentSpeed() == 0 then
                     return A.FlashofLight:Show(icon)
                 end
                 
