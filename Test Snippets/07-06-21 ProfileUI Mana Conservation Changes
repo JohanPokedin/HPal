@@ -385,6 +385,18 @@ A.Data.ProfileUI = {
                     }, 
                     M = {},
                 },
+				{
+                    E = "Checkbox", 
+                    DB = "AutoTarget",
+                    DBV = true,
+                    L = { 
+                        enUS = "Use\n@AutoTarget"
+                    }, 
+                    TT = { 
+                        enUS = "Will autotarget enemy units when Allies >= 90% HP"
+                    }, 
+                    M = {},
+                },
             },
             {
                 {
@@ -707,21 +719,6 @@ A.Data.ProfileUI = {
                 },        
             },
 			{
-				{
-                    E = "Slider",                                                     
-                    MIN = 20, 
-                    MAX = 80,                            
-                    DB = "ManaConserve",
-                    DBV = 20,
-                    ONOFF = false,
-                    L = { 
-                        ANY = "Mana % Conserve",
-                    }, 
-					TT = {
-                        ANY = "Mana % threshold for stopping @enemy target Holy Shocks and Crusader Strikes\n\nRight click: Create macro",
-                    },
-                    M = {},
-                },
 				{
                     E = "Slider",                                                     
                     MIN = 3, 
