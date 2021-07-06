@@ -633,18 +633,19 @@ A[3] = function(icon, isMulti)
                     return A.Judgment:Show(icon)
                 end
                 
-				if ((A.Zone == "pvp" or A.Zone == "arena" or A.InstanceInfo.isRated) or (Player:ManaPercentage() >= GetToggle(2, "ManaConserve"))) then
+
+				if ((A.Zone == "pvp" or A.Zone == "arena" or A.InstanceInfo.isRated) or (Player:ManaPercentage() > 40)) and A.HolyShock:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and GetToggle(2, "HolyShockDPS") and Unit(unitID):GetRange() <= 40 and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 then
+					return A.HolyShock:Show(icon)
+				end
 				
-					if A.HolyShock:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and GetToggle(2, "HolyShockDPS") and Unit(unitID):GetRange() <= 40 and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 then
-						return A.HolyShock:Show(icon)
-					end
+				if A.CrusaderStrike:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and A.CrusaderStrike:IsInRange(unitID) and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and
+				((A.CrusadersMight:IsTalentLearned() and ((Player:HolyPower() == 5 and A.HolyShock:GetCooldown() >= 1.0 and A.CrusaderStrike:GetSpellCharges() == 2 and Player:ManaPercentage() > 40) or 
+				(Player:HolyPower() < 5 and A.HolyShock:GetCooldown() >= 1.0 and Player:ManaPercentage() > 20) or (A.HolyShock:GetCooldown() == 0 and A.CrusaderStrike:GetSpellCharges() == 2 and Player:HolyPower() < 5 and Player:ManaPercentage() > 40))) 
+				or (not A.CrusadersMight:IsTalentLearned() and Player:HolyPower() < 5 and ((A.Zone == "pvp" or A.Zone == "arena" or A.InstanceInfo.isRated) or (Player:ManaPercentage() > 40))))
+				then
+					return A.CrusaderStrike:Show(icon)
+				end
 					
-					if A.CrusaderStrike:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and A.CrusaderStrike:IsInRange(unitID) and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 then
-						return A.CrusaderStrike:Show(icon)
-					end
-					
-				end	
-                
                 if A.Consecration:IsReady(player) and Unit(unitID):HasDeBuffs(204242, true) <= 1 and A.CrusaderStrike:IsInRange(unitID) then
                     return A.Consecration:Show(icon)
                 end
@@ -1110,8 +1111,8 @@ A[3] = function(icon, isMulti)
                     return A.HammerofWrath:Show(icon)
                 end            
                 
-                if Player:ManaPercentage() > GetToggle(2, "ManaConserve") and A.CrusaderStrike:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and A.CrusaderStrike:IsInRange(unitID) and IsUnitEnemy(unitID) and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 
-                and not Unit(target):IsDead() and (A.CrusadersMight:IsTalentLearned() and (Player:HolyPower() == 5 and A.HolyShock:GetCooldown() >= 1.5 or ((Player:HolyPower() < 5 and A.HolyShock:GetCooldown() >= 1.0) or (A.HolyShock:GetCooldown() == 0 and A.CrusaderStrike:GetSpellCharges() == 2 and Player:HolyPower() < 5 and Player:Mana() > 25000))) or not A.CrusadersMight:IsTalentLearned() and Player:HolyPower() < 5 and Player:Mana() > 25000) then
+                if Player:ManaPercentage() > 20 and A.CrusaderStrike:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and A.CrusaderStrike:IsInRange(unitID) and IsUnitEnemy(unitID) and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 
+                and not Unit(target):IsDead() and ((A.CrusadersMight:IsTalentLearned() and ((Player:HolyPower() == 5 and A.HolyShock:GetCooldown() >= 1.0 and A.CrusaderStrike:GetSpellCharges() == 2 and Player:ManaPercentage() > 40) or (Player:HolyPower() < 5 and A.HolyShock:GetCooldown() >= 1.0) or (A.HolyShock:GetCooldown() == 0 and A.CrusaderStrike:GetSpellCharges() == 2 and Player:HolyPower() < 5 and Player:ManaPercentage() > 40))) or (not A.CrusadersMight:IsTalentLearned() and Player:HolyPower() < 5 and Player:ManaPercentage() > 40)) then
                     return A.CrusaderStrike:Show(icon)        
                 end
                 
@@ -1177,6 +1178,13 @@ A[3] = function(icon, isMulti)
             
         end
         
+			if Action.GetToggle(2, "AutoTarget") then  
+                for val in pairs(ActiveUnitPlates) do
+                    if HealingEngine.GetBelowHealthPercentUnits(90, 40) == 0 and Unit(val):GetRange() <= 5 and ((UnitCanAttack("player", val) and UnitThreatSituation("player", val) ~= nil) or Unit(val):IsDummy()) then
+                        return A:Show(icon, ACTION_CONST_AUTOTARGET)
+                    end
+				end
+			end	
     end    
     HealingRotation = Action.MakeFunctionCachedDynamic(HealingRotation)
     
