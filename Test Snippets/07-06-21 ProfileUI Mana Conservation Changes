@@ -723,19 +723,16 @@ A.Data.ProfileUI = {
                     M = {},
                 },
 				{
-                    E = "Dropdown",
-                    OT = {
-                        { text = ">= 3 Holy Power", value = "3" },
-                        { text = "== 5 Holy Power", value = "5" },
-                    },
+                    E = "Slider",                                                     
+                    MIN = 3, 
+                    MAX = 5,                            
                     DB = "ShieldoftheRighteousHP",
-                    DBV = "3",
-                    L = {
-                        ANY = "Shield of the Righteous HPower Threshold",
-                    },
-                    TT = {
-                        ANY = "Threshold for spending Holy Power on Shield of the Righteous\n\nRight click: Create macro",
-                    },
+                    DBV = 3,
+                    ONOFF = false,
+                    L = { 
+                        ANY = "SotR HP Threshold",
+                    }, 
+					TT = "HP Threshold for using Shield of the Righteous\n\nRight click: Create macro",
                     M = {},
                 },
 			},
