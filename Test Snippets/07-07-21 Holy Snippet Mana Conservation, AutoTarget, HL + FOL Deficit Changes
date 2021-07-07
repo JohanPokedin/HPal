@@ -548,16 +548,17 @@ A[3] = function(icon, isMulti)
     }
 	    local PVEDispelDebuffs = {
         173757,	183347,	240443,	242391,	270248,	275014,	304093,	304831,	307115,	317661,	317963,	319626,	320788,	321038,	321968,	322410,	322557,	322817,	322818,	322977,	323365,	324293,	324859,	325224,	325701,	325725,	325885,	326092,
-		326617,	326632,	327481,	327648,	328180,	328331,	328664,	329110,	329325,	329326,	329608,	329862,	329905,	332605,	332707,	333708,	334505,	334765,	338353,	338729,	340026,	342207, 347283, 349954, 350713, 355641, 355915, 356031, 
-		356324, 357029,
+		326617,	326632,	327481,	327648,	328180,	328331,	328664,	329110,	329325,	329326,	329608,	329862,	329905,	332605,	332707,	333708,	334505,	334765,	338353,	338729,	340026,	342207, 347283, 348756, 349954, 350713, 355641, 355732,
+		355915, 356031, 
+		356324, 357029, 358973,
 		
 		272588,	277043,	319070,	319898,	320248,	320512,	320542,	320596,	321821,	322358,	324652,	327882,	328002,	328501,	328986,	330592,	330700,	331399,	333711,	340630,	341949,
 		
-		7992, 325552, 326092, 334900, 334926,
+		7992, 325552, 326092, 334900, 334926
     }
 	
 		local PVEBOFDebuffs = {
-		173757, 259220, 292910, 295945, 295991, 304831, 320480, 320788, 324381, 324652, 324859, 326092, 328012, 328180, 328409, 328664, 329325, 329862, 330810, 331606, 332397, 334926, 335306, 338729
+		173757, 259220, 292910, 295945, 295991, 304831, 320480, 320788, 324381, 324652, 324859, 326092, 328012, 328180, 328409, 328664, 329325, 329862, 330810, 331606, 332397, 334926, 335306, 338729, 355711, 358777
     }
 	
 		local PVPDispelDebuffs = {
@@ -1180,7 +1181,8 @@ A[3] = function(icon, isMulti)
         
 			if Action.GetToggle(2, "AutoTarget") then  
                 for val in pairs(ActiveUnitPlates) do
-                    if HealingEngine.GetBelowHealthPercentUnits(90, 40) == 0 and Unit(val):GetRange() <= 5 and ((UnitCanAttack("player", val) and UnitThreatSituation("player", val) ~= nil) or Unit(val):IsDummy()) then
+                    if HealingEngine.GetBelowHealthPercentUnits(90, 40) == 0 and Unit(val):GetRange() <= 5 and ((UnitCanAttack("player", val) and UnitThreatSituation("player", val) ~= nil) or Unit(val):IsDummy()) 
+					and (((HealingEngine.GetDeBuffsCount(PVEDispelDebuffs) == 0 and HealingEngine.GetDeBuffsCount(PVPDispelDebuffs) == 0) or ((HealingEngine.GetDeBuffsCount(PVEDispelDebuffs) > 0 or HealingEngine.GetDeBuffsCount(PVPDispelDebuffs) > 0) and not A.Cleanse:IsReady())) and ((HealingEngine.GetDeBuffsCount(PVEBOFDebuffs) == 0 and HealingEngine.GetDeBuffsCount(PVPBOFDebuffs) == 0) or ((HealingEngine.GetDeBuffsCount(PVEBOFDebuffs) > 0 or HealingEngine.GetDeBuffsCount(PVPBOFDebuffs) > 0) and not A.BlessingofFreedom:IsReady()))) then
                         return A:Show(icon, ACTION_CONST_AUTOTARGET)
                     end
 				end
