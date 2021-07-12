@@ -251,7 +251,7 @@ local function RotationsVariables()
 	WoGDeficitBase = A.GetSpellDescription(85673)[1]
     if WoGDeficitBase < 100 then
         WordofGloryHP = WoGDeficitBase * 1000 * DeficitToggle
-    elseif WordofGloryHPUI < 999 and WordofGloryHPUI >= 100 then
+    elseif WoGDeficitBase < 999 and WoGDeficitBase >= 100 then
         WordofGloryHP = WoGDeficitBase * DeficitToggle
     end
     FlashofLightHP = WordofGloryHP/1.559
