@@ -1149,7 +1149,7 @@ A[3] = function(icon, isMulti)
             return A.ArcaneTorrent:Show(icon)
         end
         
-        if A.HolyShock:IsReady(unitID) and not Unit(unitID):IsDead() and Unit(unitID):HealthPercent() <= 90 and (combatTime == 0 or TeamCacheFriendlyType == "party" and HealingEngine:GetBelowHealthPercentUnits(90, 40) == 1 and Player:HolyPower() < 5 and Player:ManaPercentage() >= 40) then
+        if A.HolyShock:IsReady(unitID) and not Unit(unitID):IsDead() and Unit(unitID):HealthPercent() <= 90 and (combatTime == 0 or TeamCacheFriendlyType == "party" and HealingEngine.GetBelowHealthPercentUnits(90, 40) == 1 and Player:HolyPower() < 5 and Player:ManaPercentage() >= 40) then
             return A.HolyShock:Show(icon)
         end
         
@@ -1351,7 +1351,7 @@ A[3] = function(icon, isMulti)
         end    
 
 		-- Light of the Martyr Top Off
-        if A.LightofMartyr:IsReady(unitID) and A.GetToggle(2, "LOTMTopOff") and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and Unit(player):ManaPercentage() >= 50 and not Unit(unitID):IsDead() and (Unit(player):HealthPercent() >= 90 or Unit(player):HasBuffs(A.DivineShield.ID) > 0) and TeamCacheFriendlyType == "party" and HealingEngine.GetBelowHealthPercentUnits(80, 40) == 0 and Unit(unitID):HealthPercent() < 90 and Unit(unitID):HealthDeficit() < LightofMartyrHP and not UnitIsUnit(unitID, player) then
+        if A.LightofMartyr:IsReady(unitID) and A.GetToggle(2, "LOTMTopOff") and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and Player:ManaPercentage() >= 50 and not Unit(unitID):IsDead() and (Unit(player):HealthPercent() >= 90 or Unit(player):HasBuffs(A.DivineShield.ID) > 0) and TeamCacheFriendlyType == "party" and HealingEngine.GetBelowHealthPercentUnits(80, 40) == 0 and Unit(unitID):HealthPercent() < 90 and Unit(unitID):HealthDeficit() < LightofMartyrHP and not UnitIsUnit(unitID, player) then
             return A.LightofMartyr:Show(icon)
         end  
         
