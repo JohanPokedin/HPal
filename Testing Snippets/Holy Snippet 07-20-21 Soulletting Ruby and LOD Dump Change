@@ -1292,7 +1292,7 @@ A[3] = function(icon, isMulti)
             
         end
        
-	   		if Action.GetToggle(2, "AutoTarget") and not Unit("target"):IsExists() or IsUnitFriendly("target") or Unit("target"):IsEnemy() and (Unit("target"):HasDeBuffs("BreakAble") > 0 or Unit("target"):CombatTime() == 0)
+	   		if Action.GetToggle(2, "AutoTarget") and (not Unit("target"):IsExists() or IsUnitFriendly("target") or Unit("target"):IsEnemy() and (Unit("target"):HasDeBuffs("BreakAble") > 0 or Unit("target"):CombatTime() == 0))
 				and ((not A.IsInPvP and MultiUnits:GetByRangeInCombat(nil, 1) >= 1) or A.Zone == "pvp") then  
                 for val in pairs(ActiveUnitPlates) do
                     if HealingEngine.GetBelowHealthPercentUnits(90, 40) == 0 and Unit(val):GetRange() <= 5 and ((UnitCanAttack("player", val) and UnitThreatSituation("player", val) ~= nil) or Unit(val):IsDummy()) 
