@@ -727,7 +727,7 @@ A[3] = function(icon, isMulti)
             
             if Unit(unitID):HasDeBuffs("BreakAble") == 0 then
                 
-				if MultiUnits:GetByRangeInCombat(30) == 5 and A.GetToggle(2, "OffensiveDT") and A.DivineToll:IsReady(unitID) and HealingEngine.GetBelowHealthPercentUnits(80, 40) <= 1 then
+				if MultiUnits:GetByRangeInCombat(30) >= 5 and A.GetToggle(2, "OffensiveDT") and A.DivineToll:IsReady(unitID) and HealingEngine.GetBelowHealthPercentUnits(80, 40) <= 1 then
 					return A.DivineToll:Show(icon)
 				end
 				
