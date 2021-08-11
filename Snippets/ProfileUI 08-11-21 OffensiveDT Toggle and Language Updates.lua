@@ -1,6 +1,6 @@
---############################
---##### TRIP'S PALADINUI #####
---############################
+--############################################
+--##### Edited TRIP'S PALADINUI by Johan #####
+--############################################
 
 -- Full credit to Taste
 
@@ -318,10 +318,11 @@ A.Data.ProfileUI = {
                     DB = "HealMouseover",
                     DBV = true,
                     L = { 
-                        enUS = "Use\n@HealMouseover"
+                        ANY = "Use\n@HealMouseover"
                     }, 
                     TT = { 
-                        enUS = "Will unlock use Healing actions for @mouseover units."
+                        enUS = "Will unlock use Healing actions for @mouseover units.\Right click: Create macro",
+						ruRU = "Будет использовать исцеляющие заклинания на союзниках, если мышь наводит на союзников\nПравая кнопка мышки: Создать макрос.",
                     }, 
                     M = {},
                 },
@@ -330,10 +331,11 @@ A.Data.ProfileUI = {
                     DB = "DPSMouseover",
                     DBV = true,
                     L = { 
-                        enUS = "Use\n@DPSMouseover"
+                        ANY = "Use\n@DPSMouseover"
                     }, 
                     TT = { 
-                        enUS = "Will unlock use DPS (formerly target only) actions for @mouseover units. Do not enable at the same time as DamageWeaveMouseover."
+                        enUS = "Will unlock use DPS (formerly target only) actions for @mouseover units. Do not enable at the same time as DamageWeaveMouseover.\nRight click: Create macro",
+						ruRU = "Будет использовать заклинания, наносящие урон врагам, если наводит курсор мыши на врагов. Не используйте одновременно с DamageWeaveMouseover.\nПравая кнопка мышки: Создать макрос.",
                     }, 
                     M = {},
                 },
@@ -342,10 +344,11 @@ A.Data.ProfileUI = {
                     DB = "WeaveMouseover",
                     DBV = true,
                     L = { 
-                        enUS = "Use\n@DamageWeaveMouseover"
+                        ANY = "Use\n@DamageWeaveMouseover"
                     }, 
                     TT = { 
-                        enUS = "Will unlock use DPS (formerly targettarget only) actions for @mouseover units. Do not enable at the same time as DPSMouseover."
+                        enUS = "Will unlock use of DPS spells, which augment healing rotation for @mouseover units. Do not enable at the same time as DPSMouseover.\nRight click: Create macro.",
+						ruRU = "Будет использовать заклинания урона, которые помогают лечить вращение врагов, находящихся под мышью.\nПравая кнопка мышки: Создать макрос.",
                     }, 
                     M = {},
                 },
@@ -354,10 +357,10 @@ A.Data.ProfileUI = {
                     DB = "targettarget",
                     DBV = true,
                     L = { 
-                        enUS = "Use\n@targettarget"
+                        ANY = "Use\n@targettarget"
                     }, 
                     TT = { 
-                        enUS = "Will unlock use actions\nfor enemy @targettarget units"
+                        ANY = "Will unlock use actions\nfor enemy @targettarget units\nRight click: Create macro"
                     }, 
                     M = {},
                 },
@@ -368,10 +371,12 @@ A.Data.ProfileUI = {
                     DB = "AutoTarget",
                     DBV = true,
                     L = { 
-                        enUS = "Use\n@AutoTarget"
+                        enUS = "Use\n@AutoTarget",
+						ruRU = "Активировать\nАвтоматический таргетинг",
                     }, 
                     TT = { 
-                        enUS = "Will autotarget enemy units when Allies >= 90% HP"
+                        enUS = "Will autotarget enemy units when Allies >= 90% HP\nRight click: Create macro",
+						ruRU = "Будет автоматически нацеливаться на врага, когда у всех союзников более 90% здоровья\nПравая кнопка мышки: Создать макрос",
                     }, 
                     M = {},
                 },
@@ -380,17 +385,26 @@ A.Data.ProfileUI = {
                     DB = "DispelSniper",
                     DBV = true,
                     L = { 
-                        enUS = "Use\nDispel\nSniper"
+                        enUS = "Use\nDispel Sniper",
+						ruRU = "Активировать\nОчищение снайпер",
                     },
+					TT = { 
+						enUS = "Automatically targets and cleanses allies\nRight click: Create macro",
+						ruRU = "Автоматически нацеливается и использует Очищение на союзниках\nПравая кнопка мышки: Создать макрос",
+					},
                     M = {},
                 },                                  
                 {
                     E = "Checkbox", 
-                    DB = "ForceGlimmerOnMaxUnits",
-                    DBV = false,
+                    DB = "OffensiveDT",
+                    DBV = true,
                     L = { 
-                        enUS = "Use\nGlimmer\nSpread"
+                        ANY = "Use\nDivine Toll AOE DPS"
                     },
+					TT = {
+						enUS = "Will use Divine Toll offensively when 5 enemy units are within range\nRight click: Create macro",
+						ruRU = "Будет использовать Божественный благовест в атаке, когда 5 вражеских юнитов находятся в пределах досягаемости.\nПравая кнопка мышки: Создать макрос.",
+					},
                     M = {},
                 },           
                 {
@@ -398,8 +412,12 @@ A.Data.ProfileUI = {
                     DB = "UseLightofDawn",
                     DBV = false,
                     L = { 
-                        enUS = "Use\nLight\nOf\nDawn"
+                        ANY = "Use\nLight Of Dawn"
                     },
+					TT = {
+						enUS = "Enables Light of Dawn\nRight click: Create macro",
+						ruRU = "Активирует Свет зари\nПравая кнопка мышки: Создать макрос.",
+					},
                     M = {},
                 },       
 			},     
@@ -409,7 +427,7 @@ A.Data.ProfileUI = {
                     DB = "HolyShockDPS",
                     DBV = true,
                     L = { 
-                        enUS = "Use\nHoly\nShock\nDPS"
+                        ANY = "Use\nHoly Shock DPS"
                     },
                     M = {},
                 },     
@@ -418,7 +436,7 @@ A.Data.ProfileUI = {
                     DB = "UseDivineShield",
                     DBV = true,
                     L = { 
-                        enUS = "Use\nDivine\nShield"
+                        ANY = "Use\nDivine Shield"
                     },
                     M = {},
                 },     
@@ -427,7 +445,7 @@ A.Data.ProfileUI = {
                     DB = "LightofDawnDump",
                     DBV = true,
                     L = { 
-                        enUS = "Use\nLight\nof\nDawn\nDump"
+                        ANY = "Use\nLight of Dawn Dump"
                     },
 					TT = {
 						ANY = "If Awakening is talented, CR will dump excess Holy Power at 5 HP into Light of Dawn to proc Avenging Wrath then use SotR as normal"
@@ -439,7 +457,7 @@ A.Data.ProfileUI = {
                     DB = "LOTMTopOff",
                     DBV = true,
                     L = { 
-                        enUS = "Light\nof\nthe\nMartyr\nTopOff"
+                        ANY = "Use\nLight of the Martyr Top-Off"
                     },
 					TT = {
 						ANY = "Will use LOTM when in-combat to heal allies to >= 90% HP when own HP >= 90% and only 1 ally is <= 90% HP and greater than any other heal spell deficits"
@@ -654,7 +672,7 @@ A.Data.ProfileUI = {
                     MIN = 0, 
                     MAX = 100,                            
                     DB = "AllySwapHP",
-                    DBV = 80,
+                    DBV = 89,
                     ONOFF = false,
                     L = { 
                         ANY = "Target Stop - Ally Swap (%HP)",
