@@ -80,7 +80,7 @@ Action[ACTION_CONST_PALADIN_HOLY] = {
     Stoneform                              = Create({ Type = "Spell", ID = 20594    }), 
     WilloftheForsaken                      = Create({ Type = "Spell", ID = 7744        }), -- not usable in APL but user can Queue it   
     EscapeArtist                           = Create({ Type = "Spell", ID = 20589    }), -- not usable in APL but user can Queue it
-    EveryManforHimself                     = Create({ Type = "Spell", ID = 59752    }), -- not usable in APL but user can Queue it
+    WillToSurvive                           = Create({ Type = "Spell", ID = 59752    }), -- not usable in APL but user can Queue it
     
     -- Spells
     Sanguine = Create({ Type = "Spell", ID = 226510, Hidden = true}),    
@@ -187,9 +187,9 @@ Action[ACTION_CONST_PALADIN_HOLY] = {
     
     
     -- Legendaries
-	Shadowbreaker = Create({ Type = "Spell", ID = 337812,Hidden = true}),
-	Maraad = Create({ Type = "Spell", ID = 234848,Hidden = true}),
-	MaraadBuff = Create({ Type = "Spell", ID = 234862,Hidden = true}),
+    Shadowbreaker = Create({ Type = "Spell", ID = 337812,Hidden = true}),
+    Maraad = Create({ Type = "Spell", ID = 234848,Hidden = true}),
+    MaraadBuff = Create({ Type = "Spell", ID = 234862,Hidden = true}),
     -- General Legendaries
     
     --Holy Legendaries
@@ -200,7 +200,7 @@ Action[ACTION_CONST_PALADIN_HOLY] = {
     
     -- Trinkets
     TuftofSmolderingPlumage = Create({ Type = "Trinket", ID = 184020}),  
-	SoullettingRuby = Create({ Type = "Trinket", ID = 178809}),  
+    SoullettingRuby = Create({ Type = "Trinket", ID = 178809}),  
     
     -- Potions
     PotionofUnbridledFury            = Action.Create({ Type = "Potion", ID = 169299, QueueForbidden = true }),     
@@ -251,10 +251,10 @@ local function RotationsVariables()
     BeaconWorkMode = GetToggle(2, "BeaconWorkMode")    
     TrinketMana = GetToggle(2, "TrinketMana")
     DeficitToggle = GetToggle(2, "DeficitToggle")
-	WoGDeficitBase = A.GetSpellDescription(85673)[1]
+    WoGDeficitBase = A.GetSpellDescription(85673)[1]
     if WoGDeficitBase < 100 then
         WordofGloryHP = WoGDeficitBase * 1000 * DeficitToggle
-    elseif WoGDeficitBase < 999 and WoGDeficitBase >= 100 then
+    else
         WordofGloryHP = WoGDeficitBase * DeficitToggle
     end
     FlashofLightHP = WordofGloryHP/1.559
@@ -268,11 +268,11 @@ local function RotationsVariables()
     UseLightofDawn = GetToggle(2, "UseLightofDawn")
     ForceGlimmerOnMaxUnits = GetToggle(2, "ForceGlimmerOnMaxUnits")
     ForceWoGHP = GetToggle(2, "ForceWoGHP")
-	if A.Shadowbreaker:HasLegendaryCraftingPower() then
-		LightofDawnRange = 40
-	elseif not A.Shadowbreaker:HasLegendaryCraftingPower() then
-		LightofDawnRange = 15
-	end
+    if A.Shadowbreaker:HasLegendaryCraftingPower() then
+        LightofDawnRange = 40
+    elseif not A.Shadowbreaker:HasLegendaryCraftingPower() then
+        LightofDawnRange = 15
+    end
     
 end
 
@@ -430,30 +430,30 @@ A[3] = function(icon, isMulti)
     local InMelee = InMelee()    
     local IsCCDebuff = {
         118,
-		853,
+        853,
         3355,
-		5484,
-		5782,
+        5484,
+        5782,
         8122,
-		9484,
-		15487,
-		19386,
-		20066,
-		31661,
-		105421,
+        9484,
+        15487,
+        19386,
+        20066,
+        31661,
+        105421,
         113724,
-		118905,
-		179057,
+        118905,
+        179057,
         204399,
-		209749,
-		209790,
-		211881,
+        209749,
+        209790,
+        211881,
         217832,
-		226943,
-		240574,
-		314793,
-		317009,
-		323673
+        226943,
+        240574,
+        314793,
+        317009,
+        323673
     }
     local IsSlowDebuff = {
         116,
@@ -462,18 +462,18 @@ A[3] = function(icon, isMulti)
         3409,
         5760,
         6360,
-		31589,
-		31935,
-		54644,
+        31589,
+        31935,
+        54644,
         55095,
         61391,
-		102359,
-		117526,
-		183218,
-		196840,
+        102359,
+        117526,
+        183218,
+        196840,
         205708,
         228358,
-		337113
+        337113
     }
     local IsDoTDebuff = {
         328305,
@@ -508,7 +508,7 @@ A[3] = function(icon, isMulti)
         ACTION_CONST_DEATHKNIGHT_FROST,
         ACTION_CONST_DEATHKNIGHT_UNHOLY
     }
-	    local PVEMELEE = {
+    local PVEMELEE = {
         ACTION_CONST_WARRIOR_ARMS,
         ACTION_CONST_WARRIOR_FURY,
         ACTION_CONST_HUNTER_SURVIVAL,
@@ -520,67 +520,67 @@ A[3] = function(icon, isMulti)
         ACTION_CONST_DEMONHUNTER_HAVOC,
         ACTION_CONST_DEATHKNIGHT_FROST,
         ACTION_CONST_DEATHKNIGHT_UNHOLY,
-		ACTION_CONST_DRUID_FERAL,
-		ACTION_CONST_PALADIN_RETRIBUTION
-    }	
-	local CCImmune = {
-    [170850] = true, --Raging Bloodhorn TOP
-	[164506] = true, --Ancient Captain TOP
-	[162744] = true, --Nekthara the Mangler TOP
-	[167532] = true, --Heavin the Breaker TOP
-	[167536] = true, --Harugia the Bloodthirsty TOP
-	[167533] = true, --Advent Nevermore TOP
-	[167534] = true, --Rek the Hardened TOP
-	[163086] = true, --Rancid Gasbag TOP
-	[167998] = true, --Portal Guardian TOP
-	[169893] = true, --Nefarious Darkspear TOP
-	[162763] = true, --Soulforged Bonereaver TOP
-	[169905] = true, --Risen Warlord DOS
-	[168942] = true, --Death Speaker DOS
-	[170572] = true, --Atal'ai Hoodoo Hexxer DOS
-	[167962] = true, --Defunct Dental Drill DOS
-	[167964] = true, --4.RF-4.RF DOS
-	[171184] = true, --Mythresh, Sky's Talons DOS
-	[171343] = true, --Bladebeak Matriarch DOS
-	[164557] = true, --Shard of Halkias HOA
-	[167876] = true, --Inquisitor Sigar HOA
-	[164929] = true, --Tirnenn Villager Mists
-	[164926] = true, --Drust Boughbreaker Mists
-	[173714] = true, --Mistveil Nightblossom Mists
-	[173720] = true, --Mistveil Gorgegullet Mists
-	[173655] = true, --Mistveil Matriarch Mists
-	[167111] = true, --Spiremaw Staghorn Mists
-	[165137] = true, --Zolramus Gatekeeper NW
-	[165824] = true, --Nar'zudah NW
-	[165197] = true, --Skeletal Monstrosity NW
-	[165919] = true, --Skeletal Marauder NW
-	[172981] = true, --Kyrian Stichwerk NW
-	[173044] = true, --Stitching Assistant NW
-	[167731] = true, --Separation Assistant NW
-	[163621] = true, --Goregrind NW
-	[163620] = true, --Rotspew NW
-	[167731] = true, --Separation Assistant NW
-	[168310] = true, --Plagueroc PF
-	[163882] = true, --Decaying Flesh Giant PF
-	[168393] = true, --Plaguebelcher PF
-	[169159] = true, --Unstable Canister PF
-	[163894] = true, --Blighted Spinebreaker PF
-	[168886] = true, --Virulax Blightweaver PF
-	[169861] = true, --Ickor Bileflesh PF
-	[162038] = true, --Regal Mistdancer SD
-	[162047] = true, --Insatiable Brute SD
-	[162057] = true, --Chamber Sentinel SD
-	[162040] = true, --Grand Overseer SD
-	[171376] = true, --Head Custodian Javlin SD
-	[171799] = true, --Depths Warden SD
-	[162057] = true, --Chamber Sentinel SD
-	[168318] = true, --Forsworn Goliath SOA
-	[163520] = true, --Forsworn Squad-Leader SOA
-	[168681] = true, --Forsworn Helion SOA
-	[168844] = true, --Lakesis SOA
-	[168843] = true, --Klotos SOA
-	[168845] = true --Astronos SOA
-	}
+        ACTION_CONST_DRUID_FERAL,
+        ACTION_CONST_PALADIN_RETRIBUTION
+    }    
+    local CCImmune = {
+        [170850] = true, --Raging Bloodhorn TOP
+        [164506] = true, --Ancient Captain TOP
+        [162744] = true, --Nekthara the Mangler TOP
+        [167532] = true, --Heavin the Breaker TOP
+        [167536] = true, --Harugia the Bloodthirsty TOP
+        [167533] = true, --Advent Nevermore TOP
+        [167534] = true, --Rek the Hardened TOP
+        [163086] = true, --Rancid Gasbag TOP
+        [167998] = true, --Portal Guardian TOP
+        [169893] = true, --Nefarious Darkspear TOP
+        [162763] = true, --Soulforged Bonereaver TOP
+        [169905] = true, --Risen Warlord DOS
+        [168942] = true, --Death Speaker DOS
+        [170572] = true, --Atal'ai Hoodoo Hexxer DOS
+        [167962] = true, --Defunct Dental Drill DOS
+        [167964] = true, --4.RF-4.RF DOS
+        [171184] = true, --Mythresh, Sky's Talons DOS
+        [171343] = true, --Bladebeak Matriarch DOS
+        [164557] = true, --Shard of Halkias HOA
+        [167876] = true, --Inquisitor Sigar HOA
+        [164929] = true, --Tirnenn Villager Mists
+        [164926] = true, --Drust Boughbreaker Mists
+        [173714] = true, --Mistveil Nightblossom Mists
+        [173720] = true, --Mistveil Gorgegullet Mists
+        [173655] = true, --Mistveil Matriarch Mists
+        [167111] = true, --Spiremaw Staghorn Mists
+        [165137] = true, --Zolramus Gatekeeper NW
+        [165824] = true, --Nar'zudah NW
+        [165197] = true, --Skeletal Monstrosity NW
+        [165919] = true, --Skeletal Marauder NW
+        [172981] = true, --Kyrian Stichwerk NW
+        [173044] = true, --Stitching Assistant NW
+        [167731] = true, --Separation Assistant NW
+        [163621] = true, --Goregrind NW
+        [163620] = true, --Rotspew NW
+        [167731] = true, --Separation Assistant NW
+        [168310] = true, --Plagueroc PF
+        [163882] = true, --Decaying Flesh Giant PF
+        [168393] = true, --Plaguebelcher PF
+        [169159] = true, --Unstable Canister PF
+        [163894] = true, --Blighted Spinebreaker PF
+        [168886] = true, --Virulax Blightweaver PF
+        [169861] = true, --Ickor Bileflesh PF
+        [162038] = true, --Regal Mistdancer SD
+        [162047] = true, --Insatiable Brute SD
+        [162057] = true, --Chamber Sentinel SD
+        [162040] = true, --Grand Overseer SD
+        [171376] = true, --Head Custodian Javlin SD
+        [171799] = true, --Depths Warden SD
+        [162057] = true, --Chamber Sentinel SD
+        [168318] = true, --Forsworn Goliath SOA
+        [163520] = true, --Forsworn Squad-Leader SOA
+        [168681] = true, --Forsworn Helion SOA
+        [168844] = true, --Lakesis SOA
+        [168843] = true, --Klotos SOA
+        [168845] = true --Astronos SOA
+    }
     local MagicNPCID = {
         [165946] = true, -- Mor'dretha
         [169875] = true, -- Shackled Soul
@@ -641,40 +641,40 @@ A[3] = function(icon, isMulti)
         [163157] = true, -- Amarth
         [163620] = true, -- Rotspew
         [162693] = true, -- Nalthor the Rimebinder
-		[179892] = true, -- Oros Coldheart
-		[179446] = true -- Incinerator Arkolath
+        [179892] = true, -- Oros Coldheart
+        [179446] = true -- Incinerator Arkolath
     }
-		local PVEDispelDebuffs = {
-        173757,	183347,	240443,	242391,	270248,	275014,	304093,	304831,	307115,	317661,	317963,	319626,	320788,	321038,	321968,	322410,	322557,	322817,	322818,	322977,	323365,	324293,	324859,	325224,	325701,	325725,	325885,	326092,
-		326617,	326632,	327481,	327648,	328180,	328331,	328664,	329110,	329325,	329326,	329608,	329862,	329904,
-		329905,	329976, 332605,	332707,	333708,	334505,	334765,	338353,	338729,	340026,	342207, 347283, 348756, 349954, 350713, 
-		353573, 353588, 355641, 355732, 355915, 356031, 
-		356324, 357029, 358973,
-		
-		272588,	277043,	319070,	319898,	320248,	320512,	320542,	320596,	321821,	322358,	324652,	327882,	328002,	328501,	328986,	330592,	330700,	331399,	333711,	340630,	341949,
-		
-		7992, 325552, 326092, 334900, 334926
+    local PVEDispelDebuffs = {
+        173757,    183347,    240443,    242391,    270248,    275014,    304093,    304831,    307115,    317661,    317963,    319626,    320788,    321038,    321968,    322410,    322557,    322817,    322818,    322977,    323365,    324293,    324859,    325224,    325701,    325725,    325885,    326092,
+        326617,    326632,    327481,    327648,    328180,    328331,    328664,    329110,    329325,    329326,    329608,    329862,    329904,
+        329905,    329976, 332605,    332707,    333708,    334505,    334765,    338353,    338729,    340026,    342207, 347283, 348756, 349954, 350713, 
+        353573, 353588, 355641, 355732, 355915, 356031, 
+        356324, 357029, 358973,
+        
+        272588,    277043,    319070,    319898,    320248,    320512,    320542,    320596,    321821,    322358,    324652,    327882,    328002,    328501,    328986,    330592,    330700,    331399,    333711,    340630,    341949,
+        
+        7992, 325552, 326092, 334900, 334926
     }
-	
-		local PVEBOFDebuffs = {
-		173757, 259220, 292910, 295945, 295991, 304831, 319592, 320480, 320788, 324381, 324652, 324859, 326092, 328012, 328180, 328409, 328664, 329325, 329862, 330810, 331606, 332397, 334926, 335306, 338729, 355711, 358777
+    
+    local PVEBOFDebuffs = {
+        173757, 259220, 292910, 295945, 295991, 304831, 319592, 320480, 320788, 324381, 324652, 324859, 326092, 328012, 328180, 328409, 328664, 329325, 329862, 330810, 331606, 332397, 334926, 335306, 338729, 355711, 358777
     }
-	
-		local PVPDispelDebuffs = {
+    
+    local PVPDispelDebuffs = {
         3409, 5760, 328305, 8680, 19386, 
-		
-		233397, 55095, 191587,
-		
-		116, 118, 120, 122, 339, 3355, 589, 853, 5484, 5782, 8122, 9484, 12654, 15487, 20066, 31589, 31661, 31935, 32390, 48181, 54644, 61391, 63106, 105421, 117526, 118905, 146739, 157736, 164812, 164815, 179057, 183218, 196840, 
-		204399, 205708, 209749, 209790, 211881,
-		217832, 226943, 228358, 240574, 247456, 257284, 314793, 317009, 321712, 323673, 325203
-		
+        
+        233397, 55095, 191587,
+        
+        116, 118, 120, 122, 339, 3355, 589, 853, 5484, 5782, 8122, 9484, 12654, 15487, 20066, 31589, 31661, 31935, 32390, 48181, 54644, 61391, 63106, 105421, 117526, 118905, 146739, 157736, 164812, 164815, 179057, 183218, 196840, 
+        204399, 205708, 209749, 209790, 211881,
+        217832, 226943, 228358, 240574, 247456, 257284, 314793, 317009, 321712, 323673, 325203
+        
     }
-	
-	    local PVPBOFDebuffs = {
-		116, 120, 122, 339, 1715, 3409, 3600, 5116, 6360, 12323, 19387, 45524, 51485, 54644, 58180, 61391, 102359, 109248, 116095, 135299, 183218, 186387, 196840, 204206, 209749, 334275
+    
+    local PVPBOFDebuffs = {
+        116, 120, 122, 339, 1715, 3409, 3600, 5116, 6360, 12323, 19387, 45524, 51485, 54644, 58180, 61391, 102359, 109248, 116095, 135299, 183218, 186387, 196840, 204206, 209749, 334275
     }
-	
+    
     -- Healing Engine vars
     local AVG_DMG = HealingEngine.GetIncomingDMGAVG()
     local AVG_HPS = HealingEngine.GetIncomingHPSAVG()
@@ -697,12 +697,20 @@ A[3] = function(icon, isMulti)
         
         if A.Zone == "arena" or A.InstanceInfo.isRated or A.Zone == "pvp" or inCombat then
             
-			local _,_,_,_,_,NPCID1 = Unit(unitID):InfoGUID()
+            local _,_,_,_,_,NPCID1 = Unit(unitID):InfoGUID()
             local useCC = Action.InterruptIsValid(unitID)
             if useCC and not CCImmune[NPCID1] and Unit(unitID):HasDeBuffs({"Silenced", "Stuned", "Sleep", "Fear", "Disoriented", "Incapacitated"}) == 0 and Unit(unitID):IsControlAble("stun") and Unit(unitID):HasBuffs(A.Sanguine.ID) == 0 and A.HammerofJustice:IsReady(unitID) and Unit(unitID):GetDR("stun") > 0 and Unit(unitID):GetRange() <= 10 and A.HammerofJustice:AbsentImun(unitID, Temp.TotalAndPhysAndCC) and not Unit(unitID):IsBoss() and not Unit(unitID):IsDead() and Unit(unitID):CanInterrupt(true, nil, 20, 85)
             then 
                 return A.HammerofJustice:Show(icon)       
             end          
+            
+            if (A.Zone == "arena" or A.InstanceInfo.isRated) and A.HammerofJustice:IsReady("target") and Unit("target"):HasDeBuffs({"Silenced", "Stuned", "Sleep", "Fear", "Disoriented", "Incapacitated"}) == 0 and Unit("target"):GetDR("stun") == 100 and A.HammerofJustice:AbsentImun("target", Temp.TotalAndPhysAndCC) and IsUnitEnemy("target") then
+                return A.HammerofJustice:Show(icon)       
+            end    
+            
+            if (A.Zone == "arena" or A.InstanceInfo.isRated) and A.HammerofJustice:IsReady("mouseover") and Unit("mouseover"):HasDeBuffs({"Silenced", "Stuned", "Sleep", "Fear", "Disoriented", "Incapacitated"}) == 0 and Unit("mouseover"):GetDR("stun") == 100 and A.HammerofJustice:AbsentImun("mouseover", Temp.TotalAndPhysAndCC) and IsUnitEnemy("mouseover") then
+                return A.HammerofJustice:Show(icon)       
+            end    
             
             if useCC and not CCImmune[NPCID1] and Unit(unitID):HasDeBuffs({"Silenced", "Stuned", "Sleep", "Fear", "Disoriented", "Incapacitated"}) == 0 and Unit(unitID):IsControlAble("disorient") and A.BlindingLight:IsReady(unitID) and Unit(unitID):GetDR("disorient") > 0 and Unit(unitID):GetRange() <= 10 and A.BlindingLight:AbsentImun(unitID, Temp.TotalAndPhysAndCC) and not Unit(unitID):IsBoss() and not Unit(unitID):IsDead() and Unit(unitID):CanInterrupt(true, nil, 20, 85)
             then 
@@ -713,18 +721,18 @@ A[3] = function(icon, isMulti)
                 return A.HammerofJustice:Show(icon) 
             end
             
-			if A.ZoneID == 13228 and NPCID == 171887 and A.TurnEvil:IsReady(unitID) and IsUnitEnemy(unitID) and Unit(unitID):HasDeBuffs("Sleep", "Fear", "Disoriented", "Incapacitated") < 10 then
-				return A.TurnEvil:Show(icon)
-			end
-						
+            if A.ZoneID == 13228 and NPCID == 171887 and A.TurnEvil:IsReady(unitID) and IsUnitEnemy(unitID) and Unit(unitID):HasDeBuffs("Sleep", "Fear", "Disoriented", "Incapacitated") < 10 then
+                return A.TurnEvil:Show(icon)
+            end
+            
             if Unit(unitID):HasDeBuffs("BreakAble") == 0 then
-
-				--Soulletting Ruby Trinket
-				if A.SoullettingRuby:IsReady(unitID) and IsUnitEnemy(unitID) and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and combatTime > 0 and not Unit(unitID):IsPet() and not Unit(unitID):IsDead() and Unit(player):HealthPercent() <= GetToggle(2, "TrinketBurstHealing") 
-				and A.SoullettingRuby:AbsentImun(unitID, Temp.TotalAndMagPhys) and (TeamCacheFriendlyType ~= "none" and HealingEngine.GetBelowHealthPercentUnits(80, 40) >= 3 or TeamCacheFriendlyType == "none")  then
-					return A.SoullettingRuby:Show(icon)
-				end
-				
+                
+                --Soulletting Ruby Trinket
+                if A.SoullettingRuby:IsReady(unitID) and IsUnitEnemy(unitID) and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and combatTime > 0 and not Unit(unitID):IsPet() and not Unit(unitID):IsDead() and Unit(player):HealthPercent() <= GetToggle(2, "TrinketBurstHealing") 
+                and A.SoullettingRuby:AbsentImun(unitID, Temp.TotalAndMagPhys) and (TeamCacheFriendlyType ~= "none" and HealingEngine.GetBelowHealthPercentUnits(80, 40) >= 3 or TeamCacheFriendlyType == "none")  then
+                    return A.SoullettingRuby:Show(icon)
+                end
+                
                 if A.VanquishersHammer:IsReady(unitID) and UseCovenant then
                     return A.VanquishersHammer:Show(icon)
                 end    
@@ -732,16 +740,16 @@ A[3] = function(icon, isMulti)
                 if A.Consecration:IsReady(player) and MultiUnits:GetByRange(5) >= 2 and Unit(unitID):HasDeBuffs(204242, true) <= 1 and A.CrusaderStrike:IsInRange(unitID) then
                     return A.Consecration:Show(icon)
                 end
-                				
-				if A.Awakening:IsTalentLearned() and A.LightofDawn:IsReady(unitID) and A.GetToggle(2, "LightofDawnDump") and Player:HolyPower() == A.GetToggle(2, "DumpHP") and Unit(player):HasBuffs(A.AvengingWrath.ID) == 0 then
-					return A.LightofDawn:Show(icon)
-				end
-				
-				if (A.Awakening:IsTalentLearned() and A.GetToggle(2, "LightofDawnDump") and Unit(player):HasBuffs(A.AvengingWrath) > 0 or A.Awakening:IsTalentLearned() and not A.GetToggle(2, "LightofDawnDump") or not A.Awakening:IsTalentLearned()) and A.ShieldoftheRighteous:IsReady(player) and Player:HolyPower() >= A.GetToggle(2, "DumpHP") and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and A.CrusaderStrike:IsInRange(unitID) and IsUnitEnemy(unitID) and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 
-				and (HealingEngine.GetBelowHealthPercentUnits(80, 40) < 1 or (HealingEngine.GetBelowHealthPercentUnits(50, 40) < 1 and TeamCache.Friendly.Size <= 2)) then
-					return A.ShieldoftheRighteous:Show(icon)
-				end
-				
+                
+                if A.Awakening:IsTalentLearned() and A.LightofDawn:IsReady(unitID) and A.GetToggle(2, "LightofDawnDump") and Player:HolyPower() == A.GetToggle(2, "DumpHP") and Unit(player):HasBuffs(A.AvengingWrath.ID) == 0 then
+                    return A.LightofDawn:Show(icon)
+                end
+                
+                if (A.Awakening:IsTalentLearned() and A.GetToggle(2, "LightofDawnDump") and Unit(player):HasBuffs(A.AvengingWrath) > 0 or A.Awakening:IsTalentLearned() and not A.GetToggle(2, "LightofDawnDump") or not A.Awakening:IsTalentLearned()) and A.ShieldoftheRighteous:IsReady(player) and Player:HolyPower() >= A.GetToggle(2, "DumpHP") and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and A.CrusaderStrike:IsInRange(unitID) and IsUnitEnemy(unitID) and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 
+                and (HealingEngine.GetBelowHealthPercentUnits(80, 40) < 1 or (HealingEngine.GetBelowHealthPercentUnits(50, 40) < 1 and TeamCache.Friendly.Size <= 2)) then
+                    return A.ShieldoftheRighteous:Show(icon)
+                end
+                
                 if A.HammerofWrath:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and Unit(unitID):GetRange() <= 30 and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 then
                     return A.HammerofWrath:Show(icon)
                 end
@@ -750,19 +758,19 @@ A[3] = function(icon, isMulti)
                     return A.Judgment:Show(icon)
                 end
                 
-
-				if ((A.Zone == "pvp" or A.Zone == "arena" or A.InstanceInfo.isRated) or (Player:ManaPercentage() > 40)) and A.HolyShock:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and GetToggle(2, "HolyShockDPS") and Unit(unitID):GetRange() <= 40 and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 then
-					return A.HolyShock:Show(icon)
-				end
-				
-				if A.CrusaderStrike:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and A.CrusaderStrike:IsInRange(unitID) and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and
-				((A.CrusadersMight:IsTalentLearned() and ((Player:HolyPower() == 5 and A.HolyShock:GetCooldown() >= 1.0 and A.CrusaderStrike:GetSpellCharges() == 2 and Player:ManaPercentage() > 40) or 
-				(Player:HolyPower() < 5 and A.HolyShock:GetCooldown() >= 1.0 and Player:ManaPercentage() > 20) or (A.HolyShock:GetCooldown() == 0 and A.CrusaderStrike:GetSpellCharges() == 2 and Player:HolyPower() < 5 and Player:ManaPercentage() > 40))) 
-				or (not A.CrusadersMight:IsTalentLearned() and Player:HolyPower() < 5 and ((A.Zone == "pvp" or A.Zone == "arena" or A.InstanceInfo.isRated) or (Player:ManaPercentage() > 40))))
-				then
-					return A.CrusaderStrike:Show(icon)
-				end
-					
+                
+                if ((A.Zone == "pvp" or A.Zone == "arena" or A.InstanceInfo.isRated) or (Player:ManaPercentage() > 40)) and A.HolyShock:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and GetToggle(2, "HolyShockDPS") and Unit(unitID):GetRange() <= 40 and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 then
+                    return A.HolyShock:Show(icon)
+                end
+                
+                if A.CrusaderStrike:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and A.CrusaderStrike:IsInRange(unitID) and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and
+                ((A.CrusadersMight:IsTalentLearned() and ((Player:HolyPower() == 5 and A.HolyShock:GetCooldown() >= 1.0 and A.CrusaderStrike:GetSpellCharges() == 2 and Player:ManaPercentage() > 40) or 
+                            (Player:HolyPower() < 5 and A.HolyShock:GetCooldown() >= 1.0 and Player:ManaPercentage() > 20) or (A.HolyShock:GetCooldown() == 0 and A.CrusaderStrike:GetSpellCharges() == 2 and Player:HolyPower() < 5 and Player:ManaPercentage() > 40))) 
+                    or (not A.CrusadersMight:IsTalentLearned() and Player:HolyPower() < 5 and ((A.Zone == "pvp" or A.Zone == "arena" or A.InstanceInfo.isRated) or (Player:ManaPercentage() > 40))))
+                then
+                    return A.CrusaderStrike:Show(icon)
+                end
+                
                 if A.Consecration:IsReady(player) and Unit(unitID):HasDeBuffs(204242, true) <= 1 and A.CrusaderStrike:IsInRange(unitID) then
                     return A.Consecration:Show(icon)
                 end
@@ -814,18 +822,18 @@ A[3] = function(icon, isMulti)
         if Unit(player):HasBuffs(A.AvengingWrath.ID, true) == 0 then
             AvengingWrathMultiplier = 1
         end
-		local ExecutionerMultiplier = 1
-		if Unit(unitID):HasDeBuffs(355714) > 0 then
-			ExecutionerMultiplier = 0.5
-		elseif Unit(unitID):HasDeBuffs(355714) == 0 then
-			ExecutionerMultiplier = 1
-		end
-		local MaraadMultiplier = 1
-		if Unit(player):HasBuffsStacks(A.MaraadBuff.ID) > 0 then
-			MaraadMultiplier = 1 + (0.1 * Unit(player):HasBuffsStacks(A.MaraadBuff.ID))
-		elseif Unit(player):HasBuffsStacks(A.MaraadBuff.ID) == 0 then
-			MaraadMultiplier = 1
-		end
+        local ExecutionerMultiplier = 1
+        if Unit(unitID):HasDeBuffs(355714) > 0 then
+            ExecutionerMultiplier = 0.5
+        elseif Unit(unitID):HasDeBuffs(355714) == 0 then
+            ExecutionerMultiplier = 1
+        end
+        local MaraadMultiplier = 1
+        if Unit(player):HasBuffsStacks(A.MaraadBuff.ID) > 0 then
+            MaraadMultiplier = 1 + (0.1 * Unit(player):HasBuffsStacks(A.MaraadBuff.ID))
+        elseif Unit(player):HasBuffsStacks(A.MaraadBuff.ID) == 0 then
+            MaraadMultiplier = 1
+        end
         --Auras
         if (A.Zone == "pvp" or A.Zone == "arena" or A.InstanceInfo.isRated) and A.ConcentrationAura:IsReady() and Unit(player):HasBuffs(A.ConcentrationAura.ID) == 0 and Unit(player):HasBuffs(A.CrusaderAura.ID) == 0 and Unit(player):HasBuffs(A.RetributionAura.ID) == 0 
         and Unit(player):HasBuffs(A.DevotionAura.ID) == 0 then
@@ -857,8 +865,8 @@ A[3] = function(icon, isMulti)
                 return A:Show(icon, ACTION_CONST_STOPCAST)
             end
             
-            if inCombat and Unit(player):HasBuffs(A.DivineFavor.ID, true) == 0 and (((Unit(player):IsCastingRemains(A.HolyLight.ID) > Player:Execute_Time(A.HolyLight.ID)/2 or Unit(player):IsCastingRemains(A.FlashofLight.ID) > Player:Execute_Time(A.FlashofLight.ID)/2) and A.HolyShock:IsReady(unitID) and Unit(unitID):HealthDeficit() >= (HolyShockHP * StatMultiplier * AvengingWrathMultiplier * ExecutionerMultiplier))
-                or ((Unit(player):IsCastingRemains(A.HolyLight.ID) > 0.5 or Unit(player):IsCastingRemains(A.FlashofLight.ID) > 0.5) and A.WordofGlory:IsReady(unitID) and Unit(unitID):HealthDeficit() >= (WordofGloryHP * StatMultiplier * AvengingWrathMultiplier * ExecutionerMultiplier)) or (Unit(player):IsCastingRemains(A.HolyLight.ID) > 0 and Unit(unitID):HealthDeficit() < (HolyLightHP * StatMultiplier * AvengingWrathMultiplier * ExecutionerMultiplier)) or (Unit(player):IsCastingRemains(A.FlashofLight.ID) > 0 and Unit(unitID):HealthDeficit() < (FlashofLightHP * StatMultiplier * AvengingWrathMultiplier * ExecutionerMultiplier))) then
+            if inCombat and Unit(player):HasBuffs(A.DivineFavor.ID, true) == 0 and (((Unit(player):IsCastingRemains(A.HolyLight.ID) > Player:Execute_Time(A.HolyLight.ID)/2 or Unit(player):IsCastingRemains(A.FlashofLight.ID) > Player:Execute_Time(A.FlashofLight.ID)/2) and A.HolyShock:IsReady(unitID) and Unit(unitID):HealthDeficit() + Unit(unitID):GetTotalHealAbsorbs() >= (HolyShockHP * StatMultiplier * AvengingWrathMultiplier * ExecutionerMultiplier))
+                or ((Unit(player):IsCastingRemains(A.HolyLight.ID) > 0.5 or Unit(player):IsCastingRemains(A.FlashofLight.ID) > 0.5) and A.WordofGlory:IsReady(unitID) and Unit(unitID):HealthDeficit() + Unit(unitID):GetTotalHealAbsorbs() >= (WordofGloryHP * StatMultiplier * AvengingWrathMultiplier * ExecutionerMultiplier)) or (Unit(player):IsCastingRemains(A.HolyLight.ID) > 0 and Unit(unitID):HealthDeficit() + Unit(unitID):GetTotalHealAbsorbs() < (HolyLightHP * StatMultiplier * AvengingWrathMultiplier * ExecutionerMultiplier)) or (Unit(player):IsCastingRemains(A.FlashofLight.ID) > 0 and Unit(unitID):HealthDeficit() + Unit(unitID):GetTotalHealAbsorbs() < (FlashofLightHP * StatMultiplier * AvengingWrathMultiplier * ExecutionerMultiplier))) then
                 return A:Show(icon, ACTION_CONST_STOPCAST)
             end
             
@@ -893,21 +901,24 @@ A[3] = function(icon, isMulti)
             return A.BlessingofProtection:Show(icon)
         end    
         
+        if A.WillToSurvive:IsReady() and Unit(player):HasDeBuffs("Stuned") > 2 then
+            return A.WillToSurvive:Show(icon)
+        end
         
         --Tuft Trinket (remove after obsolete in 9.1)
         if A.TuftofSmolderingPlumage:IsReady(unitID) and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and combatTime > 0 and not Unit(unitID):IsPet() and not Unit(unitID):IsDead() and Unit(unitID):HealthPercent() <= GetToggle(2, "TrinketBurstHealing") 
         and (Unit(unitID):HasBuffs("TotalImun") == 0 or Unit(unitID):HasBuffs("DamagePhysImun") > 0 and Unit(unitID):TimeToDieMagicX(20) <= 3 or Unit(unitID):HasBuffs("DamageMagicImun") > 0 and Unit(unitID):TimeToDieX(20) - Unit(unitID):TimeToDieMagicX(20) < -1) then
             return A.TuftofSmolderingPlumage:Show(icon)
         end
-		
-		--Soulletting Ruby Trinket
-		if A.SoullettingRuby:IsReady(unitID) and IsUnitEnemy(unitID) and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and combatTime > 0 and not Unit(unitID):IsPet() and not Unit(unitID):IsDead() and Unit(player):HealthPercent() <= GetToggle(2, "TrinketBurstHealing") 
+        
+        --Soulletting Ruby Trinket
+        if A.SoullettingRuby:IsReady(unitID) and IsUnitEnemy(unitID) and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and combatTime > 0 and not Unit(unitID):IsPet() and not Unit(unitID):IsDead() and Unit(player):HealthPercent() <= GetToggle(2, "TrinketBurstHealing") 
         and A.SoullettingRuby:AbsentImun(unitID, Temp.TotalAndMagPhys) and HealingEngine.GetBelowHealthPercentUnits(80, 40) >= 3 then
             return A.SoullettingRuby:Show(icon)
         end
         
         --Holy Light Divine Favor w/o Infusion
-        if A.HolyLight:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) < 0.8 and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and Unit(player):HasBuffs(A.DivineFavor.ID, true) > 0 and Unit(unitID):HealthDeficit() >= ((WordofGloryHP/1.211) * AvengingWrathMultiplier * ExecutionerMultiplier * StatMultiplier * 1.5) and not Unit(unitID):IsDead() and Unit(unitID):HealthPercent() <= HolyLightHP and Unit(player):GetCurrentSpeed() == 0 then
+        if A.HolyLight:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) < 0.8 and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and Unit(player):HasBuffs(A.DivineFavor.ID, true) > 0 and Unit(unitID):HealthDeficit() + Unit(unitID):GetTotalHealAbsorbs() >= ((WordofGloryHP/1.211) * AvengingWrathMultiplier * ExecutionerMultiplier * StatMultiplier * 1.5) and not Unit(unitID):IsDead() and Unit(unitID):HealthPercent() <= HolyLightHP and Unit(player):GetCurrentSpeed() == 0 then
             return A.HolyLight:Show(icon)
         end    
         
@@ -993,8 +1004,8 @@ A[3] = function(icon, isMulti)
                     return A.DivineToll:Show(icon)
                 end
             end
-        end         		
-				
+        end                 
+        
         if not Action.InstanceInfo.isRated or Action.InstanceInfo.isRated and (Unit(unitID):HealthPercent() >= 30 or Unit(unitID):HealthPercent() < 30 and not A.HolyShock:IsReady() and not A.WordofGlory:IsReady()) then
             
             -- PVP Dispel Prioritization
@@ -1044,8 +1055,8 @@ A[3] = function(icon, isMulti)
                     end                
                 end
             end
-			
-			if A.Cleanse:IsReady() and A.GetToggle(2, "DispelSniper") then
+            
+            if A.Cleanse:IsReady() and A.GetToggle(2, "DispelSniper") then
                 for i = 1, #getmembersAll do 
                     if Unit(getmembersAll[i].Unit):HasDeBuffs(350713) > 0 and Unit(getmembersAll[i].Unit):HasSpec(PVEMELEE) and Unit(getmembersAll[i].Unit):GetRange() <= 40 and not Unit(getmembersAll[i].Unit):IsDead() and AuraIsValid(getmembersAll[i].Unit, "UseDispel", "Dispel")
                     and Unit(getmembersAll[i].Unit):HasDeBuffs(342938) == 0 and Unit(getmembersAll[i].Unit):HasDeBuffs(A.Cyclone.ID) == 0 then  
@@ -1053,7 +1064,7 @@ A[3] = function(icon, isMulti)
                     end                
                 end
             end
-
+            
             if A.Cleanse:IsReady() and A.GetToggle(2, "DispelSniper") then
                 for i = 1, #getmembersAll do 
                     if Unit(getmembersAll[i].Unit):HasDeBuffs(350713) == 0 and Unit(getmembersAll[i].Unit):GetRange() <= 40 and not Unit(getmembersAll[i].Unit):IsDead() and AuraIsValid(getmembersAll[i].Unit, "UseDispel", "Dispel")
@@ -1129,33 +1140,33 @@ A[3] = function(icon, isMulti)
         end
         
         --Word of Glory at 5 HP
-        if A.WordofGlory:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and not Unit(unitID):IsDead() and Unit(unitID):HealthDeficit() >= (WordofGloryHP * StatMultiplier * AvengingWrathMultiplier * ExecutionerMultiplier) and Player:HolyPower() >= 5 then
+        if A.WordofGlory:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and not Unit(unitID):IsDead() and Unit(unitID):HealthDeficit() + Unit(unitID):GetTotalHealAbsorbs() >= (WordofGloryHP * StatMultiplier * AvengingWrathMultiplier * ExecutionerMultiplier) and Player:HolyPower() >= 5 then
             return A.WordofGlory:Show(icon)
         end
         
-        if A.HolyPrism:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and not Unit(unitID):IsDead() and Unit(unitID):HealthDeficit() >= (HolyPrismHP * StatMultiplier * AvengingWrathMultiplier * ExecutionerMultiplier) then
+        if A.HolyPrism:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and not Unit(unitID):IsDead() and Unit(unitID):HealthDeficit() + Unit(unitID):GetTotalHealAbsorbs() >= (HolyPrismHP * StatMultiplier * AvengingWrathMultiplier * ExecutionerMultiplier) then
             return A.HolyPrism:Show(icon)
         end       
         
         --Holy Shock target
-        if A.HolyShock:IsReady(unitID) and IsUnitFriendly(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and not Unit(unitID):IsDead() and Unit(unitID):HealthDeficit() >= (HolyShockHP * StatMultiplier * AvengingWrathMultiplier * ExecutionerMultiplier) then
+        if A.HolyShock:IsReady(unitID) and IsUnitFriendly(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and not Unit(unitID):IsDead() and Unit(unitID):HealthDeficit() + Unit(unitID):GetTotalHealAbsorbs() >= (HolyShockHP * StatMultiplier * AvengingWrathMultiplier * ExecutionerMultiplier) then
             return A.HolyShock:Show(icon)
         end
         
         --Word of Glory 3 HP
-        if A.WordofGlory:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and not Unit(unitID):IsDead() and Unit(unitID):HealthDeficit() >= (WordofGloryHP * StatMultiplier * AvengingWrathMultiplier * ExecutionerMultiplier) then
+        if A.WordofGlory:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and not Unit(unitID):IsDead() and Unit(unitID):HealthDeficit() + Unit(unitID):GetTotalHealAbsorbs() >= (WordofGloryHP * StatMultiplier * AvengingWrathMultiplier * ExecutionerMultiplier) then
             return A.WordofGlory:Show(icon)
         end
-	   
-		if Unit(player):HasBuffs(A.MaraadBuff.ID) > 0 and MaraadDeficitCheck(1) > 0 then 
-			for GUIDs, v in pairs(FriendlyGUIDs) do
-				if Unit(v):HealthDeficit() >= LightofMartyrHP * MaraadMultiplier and Unit(v):HasBuffs(A.BeaconofFaith.ID, true) == 0 and Unit(v):HasBuffs(A.BeaconofLight.ID, true) == 0 then
-					HealingEngine.SetTarget(v, 0.3) -- wtf?    use callback        
-					return A.LightofMartyr:Show(icon)
-				end
-			end     
-		end 
-	   
+        
+        if Unit(player):HasBuffs(A.MaraadBuff.ID) > 0 and MaraadDeficitCheck(1) > 0 then 
+            for GUIDs, v in pairs(FriendlyGUIDs) do
+                if Unit(v):HealthDeficit() >= LightofMartyrHP * MaraadMultiplier and Unit(v):HasBuffs(A.BeaconofFaith.ID, true) == 0 and Unit(v):HasBuffs(A.BeaconofLight.ID, true) == 0 then
+                    HealingEngine.SetTarget(v, 0.3) -- wtf?    use callback        
+                    return A.LightofMartyr:Show(icon)
+                end
+            end     
+        end 
+        
         if A.Consecration:IsReady(player) and A.HallowedGround:IsTalentLearned() and IsUnitFriendly(unitID) and Unit(unitID):GetRange() <= 5 and Unit(unitID):HasDeBuffs(IsSlowDebuff) >= 1 then
             return A.Consecration:Show(icon)
         end
@@ -1192,11 +1203,11 @@ A[3] = function(icon, isMulti)
         end
         
         --Bestow Faith
-        if A.BestowFaith:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and not Unit(unitID):IsDead() and Unit(unitID):HealthDeficit() >= (BestowFaithHP * StatMultiplier * AvengingWrathMultiplier * ExecutionerMultiplier) then
+        if A.BestowFaith:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and not Unit(unitID):IsDead() and Unit(unitID):HealthDeficit() + Unit(unitID):GetTotalHealAbsorbs() >= (BestowFaithHP * StatMultiplier * AvengingWrathMultiplier * ExecutionerMultiplier) then
             return A.BestowFaith:Show(icon)
         end    
         
-        if A.DivineFavor:IsTalentLearned() and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and IsUnitFriendly("target") and Unit("target"):HasDeBuffs(A.Cyclone.ID) == 0 and Unit("target"):GetRange() <= 40 and Unit("target"):HealthDeficit() >= ((WordofGloryHP/1.211) * AvengingWrathMultiplier * ExecutionerMultiplier * StatMultiplier * 2) and A.DivineFavor:IsReady(player) then
+        if A.DivineFavor:IsTalentLearned() and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and IsUnitFriendly("target") and Unit("target"):HasDeBuffs(A.Cyclone.ID) == 0 and Unit("target"):GetRange() <= 40 and Unit("target"):HealthDeficit() + Unit("target"):GetTotalHealAbsorbs() >= ((WordofGloryHP/1.211) * AvengingWrathMultiplier * ExecutionerMultiplier * StatMultiplier * 2) and A.DivineFavor:IsReady(player) then
             return A.DivineFavor:Show(icon)
         end
         
@@ -1207,6 +1218,10 @@ A[3] = function(icon, isMulti)
             then 
                 return A.HammerofJustice:Show(icon)       
             end       
+            
+            if (A.Zone == "arena" or A.InstanceInfo.isRated) and A.HammerofJustice:IsReady("targettarget") and Unit("targettarget"):HasDeBuffs({"Silenced", "Stuned", "Sleep", "Fear", "Disoriented", "Incapacitated"}) == 0 and Unit("targettarget"):GetDR("stun") == 100 and A.HammerofJustice:AbsentImun("targettarget", Temp.TotalAndPhysAndCC) and IsUnitEnemy("targettarget") then
+                return A.HammerofJustice:Show(icon)       
+            end                     
             
             if useCC and not CCImmune[NPCID1] and Unit(unitID):HasDeBuffs({"Silenced", "Stuned", "Sleep", "Fear", "Disoriented", "Incapacitated"}) == 0 and Unit(unitID):IsControlAble("disorient") and A.BlindingLight:IsReady(unitID) and Unit(unitID):GetDR("disorient") > 0 and Unit(unitID):GetRange() <= 10 and A.BlindingLight:AbsentImun(unitID, Temp.TotalAndPhysAndCC) and not Unit(unitID):IsBoss() and IsUnitEnemy(unitID) and not Unit(target):IsDead() and Unit(unitID):CanInterrupt(true, nil, 20, 85)
             then 
@@ -1269,14 +1284,14 @@ A[3] = function(icon, isMulti)
         if A.Zone == "arena" or A.InstanceInfo.isRated or A.Zone == "pvp" or inCombat then
             
             if A.Awakening:IsTalentLearned() and A.LightofDawn:IsReady(unitID) and A.GetToggle(2, "LightofDawnDump") and Player:HolyPower() == A.GetToggle(2, "DumpHP") and Unit(player):HasBuffs(A.AvengingWrath.ID) == 0 then
-				return A.LightofDawn:Show(icon)
-			end
-			
-			if (A.Awakening:IsTalentLearned() and A.GetToggle(2, "LightofDawnDump") and Unit(player):HasBuffs(A.AvengingWrath) > 0 or A.Awakening:IsTalentLearned() and not A.GetToggle(2, "LightofDawnDump") or not A.Awakening:IsTalentLearned()) and A.ShieldoftheRighteous:IsReady(player) and Player:HolyPower() >= A.GetToggle(2, "DumpHP") and A.CrusaderStrike:IsInRange(unitID) and IsUnitEnemy(unitID) and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 
+                return A.LightofDawn:Show(icon)
+            end
+            
+            if (A.Awakening:IsTalentLearned() and A.GetToggle(2, "LightofDawnDump") and Unit(player):HasBuffs(A.AvengingWrath) > 0 or A.Awakening:IsTalentLearned() and not A.GetToggle(2, "LightofDawnDump") or not A.Awakening:IsTalentLearned()) and A.ShieldoftheRighteous:IsReady(player) and Player:HolyPower() >= A.GetToggle(2, "DumpHP") and A.CrusaderStrike:IsInRange(unitID) and IsUnitEnemy(unitID) and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 
             and (HealingEngine.GetBelowHealthPercentUnits(80, 40) < 1 or (HealingEngine.GetBelowHealthPercentUnits(50, 40) < 1 and TeamCache.Friendly.Size <= 2)) then
                 return A.ShieldoftheRighteous:Show(icon)
             end
-
+            
             
             if HealingEngine.GetBelowHealthPercentUnits(80, 40) < 1 then
                 
@@ -1291,17 +1306,17 @@ A[3] = function(icon, isMulti)
             end
             
         end
-       
-	   		if Action.GetToggle(2, "AutoTarget") and (not Unit("target"):IsExists() or IsUnitFriendly("target") or Unit("target"):IsEnemy() and (Unit("target"):HasDeBuffs("BreakAble") > 0 or Unit("target"):CombatTime() == 0))
-				and ((not A.IsInPvP and MultiUnits:GetByRangeInCombat(nil, 1) >= 1) or A.Zone == "pvp") then  
-                for val in pairs(ActiveUnitPlates) do
-                    if HealingEngine.GetBelowHealthPercentUnits(90, 40) == 0 and Unit(val):GetRange() <= 5 and ((UnitCanAttack("player", val) and UnitThreatSituation("player", val) ~= nil) or Unit(val):IsDummy()) 
-					and (((HealingEngine.GetDeBuffsCount(PVEDispelDebuffs) == 0 and HealingEngine.GetDeBuffsCount(PVPDispelDebuffs) == 0) or ((HealingEngine.GetDeBuffsCount(PVEDispelDebuffs) > 0 or HealingEngine.GetDeBuffsCount(PVPDispelDebuffs) > 0) and not A.Cleanse:IsReady())) and ((HealingEngine.GetDeBuffsCount(PVEBOFDebuffs) == 0 and HealingEngine.GetDeBuffsCount(PVPBOFDebuffs) == 0) or ((HealingEngine.GetDeBuffsCount(PVEBOFDebuffs) > 0 or HealingEngine.GetDeBuffsCount(PVPBOFDebuffs) > 0) and not A.BlessingofFreedom:IsReady()))) then
-                        return A:Show(icon, ACTION_CONST_AUTOTARGET)
-                    end
-				end
-			end	
-	   
+        
+        if Action.GetToggle(2, "AutoTarget") and (not Unit("target"):IsExists() or IsUnitFriendly("target") or Unit("target"):IsEnemy() and (Unit("target"):HasDeBuffs("BreakAble") > 0 or Unit("target"):CombatTime() == 0))
+        and ((not A.IsInPvP and MultiUnits:GetByRangeInCombat(nil, 1) >= 1) or A.Zone == "pvp") then  
+            for val in pairs(ActiveUnitPlates) do
+                if HealingEngine.GetBelowHealthPercentUnits(90, 40) == 0 and Unit(val):GetRange() <= 5 and ((UnitCanAttack("player", val) and UnitThreatSituation("player", val) ~= nil) or Unit(val):IsDummy()) 
+                and (((HealingEngine.GetDeBuffsCount(PVEDispelDebuffs) == 0 and HealingEngine.GetDeBuffsCount(PVPDispelDebuffs) == 0) or ((HealingEngine.GetDeBuffsCount(PVEDispelDebuffs) > 0 or HealingEngine.GetDeBuffsCount(PVPDispelDebuffs) > 0) and not A.Cleanse:IsReady())) and ((HealingEngine.GetDeBuffsCount(PVEBOFDebuffs) == 0 and HealingEngine.GetDeBuffsCount(PVPBOFDebuffs) == 0) or ((HealingEngine.GetDeBuffsCount(PVEBOFDebuffs) > 0 or HealingEngine.GetDeBuffsCount(PVPBOFDebuffs) > 0) and not A.BlessingofFreedom:IsReady()))) then
+                    return A:Show(icon, ACTION_CONST_AUTOTARGET)
+                end
+            end
+        end    
+        
     end    
     HealingRotation = Action.MakeFunctionCachedDynamic(HealingRotation)
     
@@ -1347,26 +1362,26 @@ A[3] = function(icon, isMulti)
         if Unit(player):HasBuffs(A.AvengingWrath.ID, true) == 0 then
             AvengingWrathMultiplier = 1
         end
-		local ExecutionerMultiplier = 1
-		if Unit(unitID):HasDeBuffs(355714) > 0 then
-			ExecutionerMultiplier = 0.5
-		elseif Unit(unitID):HasDeBuffs(355714) == 0 then
-			ExecutionerMultiplier = 1
-		end
+        local ExecutionerMultiplier = 1
+        if Unit(unitID):HasDeBuffs(355714) > 0 then
+            ExecutionerMultiplier = 0.5
+        elseif Unit(unitID):HasDeBuffs(355714) == 0 then
+            ExecutionerMultiplier = 1
+        end
         local MaraadMultiplier = 1
-		if Unit(player):HasBuffsStacks(A.MaraadBuff.ID) > 0 then
-			MaraadMultiplier = 1 + (0.1 * Unit(player):HasBuffsStacks(A.MaraadBuff.ID))
-		elseif Unit(player):HasBuffsStacks(A.MaraadBuff.ID) == 0 then
-			MaraadMultiplier = 1
-		end
+        if Unit(player):HasBuffsStacks(A.MaraadBuff.ID) > 0 then
+            MaraadMultiplier = 1 + (0.1 * Unit(player):HasBuffsStacks(A.MaraadBuff.ID))
+        elseif Unit(player):HasBuffsStacks(A.MaraadBuff.ID) == 0 then
+            MaraadMultiplier = 1
+        end
         
         -- Light of the Martyr
-        if A.LightofMartyr:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and not Unit(unitID):IsDead() and (Unit(player):HealthPercent() >= 50 or Unit(player):HasBuffs(A.DivineShield.ID) > 0) and Unit(unitID):HealthPercent() < A.GetToggle(2, "LightofMartyrHP%") and Unit(unitID):HealthDeficit() >= LightofMartyrHP and Unit(player):GetCurrentSpeed() ~= 0 and not UnitIsUnit(unitID, player) then
+        if A.LightofMartyr:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and not Unit(unitID):IsDead() and (Unit(player):HealthPercent() >= 50 or Unit(player):HasBuffs(A.DivineShield.ID) > 0) and Unit(unitID):HealthPercent() < A.GetToggle(2, "LightofMartyrHP%") and Unit(unitID):HealthDeficit() + Unit(unitID):GetTotalHealAbsorbs() >= LightofMartyrHP and Unit(player):GetCurrentSpeed() ~= 0 and not UnitIsUnit(unitID, player) then
             return A.LightofMartyr:Show(icon)
         end    
-
-		-- Light of the Martyr Top Off
-        if A.LightofMartyr:IsReady(unitID) and A.GetToggle(2, "LOTMTopOff") and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and Player:ManaPercentage() >= 50 and not Unit(unitID):IsDead() and (Unit(player):HealthPercent() >= 90 or Unit(player):HasBuffs(A.DivineShield.ID) > 0) and TeamCacheFriendlyType == "party" and HealingEngine.GetBelowHealthPercentUnits(80, 40) == 0 and Unit(unitID):HealthPercent() < 90 and Unit(unitID):HealthDeficit() < LightofMartyrHP and not UnitIsUnit(unitID, player) then
+        
+        -- Light of the Martyr Top Off
+        if A.LightofMartyr:IsReady(unitID) and A.GetToggle(2, "LOTMTopOff") and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and Player:ManaPercentage() >= 50 and not Unit(unitID):IsDead() and (Unit(player):HealthPercent() >= 90 or Unit(player):HasBuffs(A.DivineShield.ID) > 0) and TeamCacheFriendlyType == "party" and HealingEngine.GetBelowHealthPercentUnits(80, 40) == 0 and Unit(unitID):HealthPercent() < 90 and Unit(unitID):HealthDeficit() + Unit(unitID):GetTotalHealAbsorbs() < LightofMartyrHP and not UnitIsUnit(unitID, player) then
             return A.LightofMartyr:Show(icon)
         end  
         
@@ -1375,22 +1390,22 @@ A[3] = function(icon, isMulti)
             if not inCombat or inCombat and not A.HolyShock:IsReady() and not A.WordofGlory:IsReady() then 
                 
                 --Flash of Light Infusion proc
-                if A.FlashofLight:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) < Player:Execute_Time(A.FlashofLight.ID) and not A.WordofGlory:IsReady(unitID) and Player:Execute_Time(A.FlashofLight.ID) - A.HolyShock:GetCooldown() <= Player:Execute_Time(A.FlashofLight.ID)/2 and Unit(unitID):HealthPercent() <= A.GetToggle(2, "FlashofLightHP%") and Unit(player):HasBuffs(A.DivineFavor.ID, true) == 0 and not Unit(unitID):IsDead() and Unit(player):HasBuffs(A.InfusionofLightBuff.ID, true) > Player:Execute_Time(A.FlashofLight.ID) and Unit(unitID):HealthDeficit() >= (FlashofLightHP * StatMultiplier * AvengingWrathMultiplier * ExecutionerMultiplier) and Unit(unitID):TimeToDie() > Player:Execute_Time(A.FlashofLight.ID) and Unit(unitID):TimeToDie() < 8 and Unit(player):GetCurrentSpeed() == 0 then
+                if A.FlashofLight:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) < Player:Execute_Time(A.FlashofLight.ID) and not A.WordofGlory:IsReady(unitID) and Player:Execute_Time(A.FlashofLight.ID) - A.HolyShock:GetCooldown() <= Player:Execute_Time(A.FlashofLight.ID)/2 and Unit(unitID):HealthPercent() <= A.GetToggle(2, "FlashofLightHP%") and Unit(player):HasBuffs(A.DivineFavor.ID, true) == 0 and not Unit(unitID):IsDead() and Unit(player):HasBuffs(A.InfusionofLightBuff.ID, true) > Player:Execute_Time(A.FlashofLight.ID) and Unit(unitID):HealthDeficit() + Unit(unitID):GetTotalHealAbsorbs() >= (FlashofLightHP * StatMultiplier * AvengingWrathMultiplier * ExecutionerMultiplier) and Unit(unitID):TimeToDie() > Player:Execute_Time(A.FlashofLight.ID) and Unit(unitID):TimeToDie() < 8 and Unit(player):GetCurrentSpeed() == 0 then
                     return A.FlashofLight:Show(icon)
                 end
                 
                 --Holy Light Infusion proc
-                if A.HolyLight:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) < Player:Execute_Time(A.HolyLight.ID) and not A.WordofGlory:IsReady(unitID) and Player:Execute_Time(A.HolyLight.ID) - A.HolyShock:GetCooldown() <= Player:Execute_Time(A.HolyLight.ID)/2 and Unit(player):HasBuffs(A.DivineFavor.ID, true) == 0 and not Unit(unitID):IsDead() and Unit(player):HasBuffs(A.InfusionofLightBuff.ID, true) > Player:Execute_Time(A.HolyLight.ID) and Unit(unitID):HealthDeficit() >= (HolyLightHP * StatMultiplier * AvengingWrathMultiplier * ExecutionerMultiplier) and Unit(player):GetCurrentSpeed() == 0 then
+                if A.HolyLight:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) < Player:Execute_Time(A.HolyLight.ID) and not A.WordofGlory:IsReady(unitID) and Player:Execute_Time(A.HolyLight.ID) - A.HolyShock:GetCooldown() <= Player:Execute_Time(A.HolyLight.ID)/2 and Unit(player):HasBuffs(A.DivineFavor.ID, true) == 0 and not Unit(unitID):IsDead() and Unit(player):HasBuffs(A.InfusionofLightBuff.ID, true) > Player:Execute_Time(A.HolyLight.ID) and Unit(unitID):HealthDeficit() + Unit(unitID):GetTotalHealAbsorbs() >= (HolyLightHP * StatMultiplier * AvengingWrathMultiplier * ExecutionerMultiplier) and Unit(player):GetCurrentSpeed() == 0 then
                     return A.HolyLight:Show(icon)
                 end    
                 
                 --Flash of Light no infusion
-                if A.FlashofLight:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) < Player:Execute_Time(A.FlashofLight.ID) and not A.WordofGlory:IsReady(unitID) and Player:Execute_Time(A.FlashofLight.ID) - A.HolyShock:GetCooldown() <= Player:Execute_Time(A.FlashofLight.ID)/2 and Unit(unitID):HealthPercent() <= A.GetToggle(2, "FlashofLightHP%") and Unit(player):HasBuffs(A.DivineFavor.ID, true) == 0 and not Unit(unitID):IsDead() and Unit(unitID):HealthDeficit() >= (FlashofLightHP * StatMultiplier * AvengingWrathMultiplier * ExecutionerMultiplier) and Unit(unitID):TimeToDie() > Player:Execute_Time(A.FlashofLight.ID) and Unit(unitID):TimeToDie() < 8 and Unit(player):GetCurrentSpeed() == 0 then
+                if A.FlashofLight:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) < Player:Execute_Time(A.FlashofLight.ID) and not A.WordofGlory:IsReady(unitID) and Player:Execute_Time(A.FlashofLight.ID) - A.HolyShock:GetCooldown() <= Player:Execute_Time(A.FlashofLight.ID)/2 and Unit(unitID):HealthPercent() <= A.GetToggle(2, "FlashofLightHP%") and Unit(player):HasBuffs(A.DivineFavor.ID, true) == 0 and not Unit(unitID):IsDead() and Unit(unitID):HealthDeficit() + Unit(unitID):GetTotalHealAbsorbs() >= (FlashofLightHP * StatMultiplier * AvengingWrathMultiplier * ExecutionerMultiplier) and Unit(unitID):TimeToDie() > Player:Execute_Time(A.FlashofLight.ID) and Unit(unitID):TimeToDie() < 8 and Unit(player):GetCurrentSpeed() == 0 then
                     return A.FlashofLight:Show(icon)
                 end
                 
                 --Holy Light no infusion
-                if A.HolyLight:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) < Player:Execute_Time(A.HolyLight.ID) and not A.WordofGlory:IsReady(unitID) and Player:Execute_Time(A.HolyLight.ID) - A.HolyShock:GetCooldown() <= Player:Execute_Time(A.HolyLight.ID)/2 and Unit(player):HasBuffs(A.DivineFavor.ID, true) == 0 and not Unit(unitID):IsDead() and Unit(unitID):HealthDeficit() >= (HolyLightHP * StatMultiplier * AvengingWrathMultiplier * ExecutionerMultiplier) and Unit(player):GetCurrentSpeed() == 0 then
+                if A.HolyLight:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) < Player:Execute_Time(A.HolyLight.ID) and not A.WordofGlory:IsReady(unitID) and Player:Execute_Time(A.HolyLight.ID) - A.HolyShock:GetCooldown() <= Player:Execute_Time(A.HolyLight.ID)/2 and Unit(player):HasBuffs(A.DivineFavor.ID, true) == 0 and not Unit(unitID):IsDead() and Unit(unitID):HealthDeficit() + Unit(unitID):GetTotalHealAbsorbs() >= (HolyLightHP * StatMultiplier * AvengingWrathMultiplier * ExecutionerMultiplier) and Unit(player):GetCurrentSpeed() == 0 then
                     return A.HolyLight:Show(icon)
                 end    
                 
@@ -1502,3 +1517,4 @@ A[6] = function(icon)
 end 
 A[7] = nil 
 A[8] = nil 
+
