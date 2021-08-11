@@ -727,6 +727,15 @@ A[3] = function(icon, isMulti)
             
             if Unit(unitID):HasDeBuffs("BreakAble") == 0 then
                 
+				if MultiUnits:GetByRangeInCombat(30) == 5 and A.GetToggle(2, "OffensiveDT") and A.DivineToll:IsReady(unitID) and HealingEngine.GetBelowHealthPercentUnits(80, 40) <= 1 then
+					return A.DivineToll:Show(icon)
+				end
+				
+				if A.HammerofWrath:GetCooldown() == 0 and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and A.AshenHallow:GetSpellTimeSinceLastCast() <= 30 and (Unit(unitID):GetRange() <= 20 or (Unit(unitID):GetRange() <= 30 and A.Zone == "arena" or A.InstanceInfo.isRated or A.Zone == "pvp")) 
+				and IsUnitEnemy(unitID) and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and not Unit(target):IsDead() then
+					return A.HammerofWrath:Show(icon)
+				end     
+				
                 --Soulletting Ruby Trinket
                 if A.SoullettingRuby:IsReady(unitID) and IsUnitEnemy(unitID) and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and combatTime > 0 and not Unit(unitID):IsPet() and not Unit(unitID):IsDead() and Unit(player):HealthPercent() <= GetToggle(2, "TrinketBurstHealing") 
                 and A.SoullettingRuby:AbsentImun(unitID, Temp.TotalAndMagPhys) and (TeamCacheFriendlyType ~= "none" and HealingEngine.GetBelowHealthPercentUnits(80, 40) >= 3 or TeamCacheFriendlyType == "none")  then
@@ -1230,11 +1239,11 @@ A[3] = function(icon, isMulti)
             
             if Unit(unitID):HasDeBuffs("BreakAble") == 0 then
                 
-                if A.HammerofWrath:GetCooldown() == 0 and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and Unit(unitID):HasDeBuffs(317221) > 0 and Unit(player):HasBuffs(317223) > 0 and (Unit(unitID):GetRange() <= 20 or (Unit(unitID):GetRange() <= 30 and A.Zone == "arena" or A.InstanceInfo.isRated or A.Zone == "pvp")) 
-                and IsUnitEnemy(unitID) and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and not Unit(target):IsDead() then
-                    return A.HammerofWrath:Show(icon)
-                end            
-                
+				if A.HammerofWrath:GetCooldown() == 0 and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and A.AshenHallow:GetSpellTimeSinceLastCast() <= 30 and (Unit(unitID):GetRange() <= 20 or (Unit(unitID):GetRange() <= 30 and A.Zone == "arena" or A.InstanceInfo.isRated or A.Zone == "pvp")) 
+				and IsUnitEnemy(unitID) and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and not Unit(target):IsDead() then
+					return A.HammerofWrath:Show(icon)
+				end      
+				
                 if Player:ManaPercentage() > 20 and A.CrusaderStrike:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and A.CrusaderStrike:IsInRange(unitID) and IsUnitEnemy(unitID) and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 
                 and not Unit(target):IsDead() and ((A.CrusadersMight:IsTalentLearned() and ((Player:HolyPower() == 5 and A.HolyShock:GetCooldown() >= 1.0 and A.CrusaderStrike:GetSpellCharges() == 2 and Player:ManaPercentage() > 40) or (Player:HolyPower() < 5 and A.HolyShock:GetCooldown() >= 1.0) or (A.HolyShock:GetCooldown() == 0 and A.CrusaderStrike:GetSpellCharges() == 2 and Player:HolyPower() < 5 and Player:ManaPercentage() > 40))) or (not A.CrusadersMight:IsTalentLearned() and Player:HolyPower() < 5 and Player:ManaPercentage() > 40)) then
                     return A.CrusaderStrike:Show(icon)        
