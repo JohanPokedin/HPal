@@ -693,11 +693,28 @@ A.Data.ProfileUI = {
                         ANY = "Ignore Necrotic @ X Stacks",
                     }, 
 					TT = {
-                        ANY = "Stops Healing Engine from targeting an ally with >= XX Necrotic Stacks\n\nRight click: Create macro",
+                        ANY = "Stops Healing Engine from targeting an ally with >= XX Necrotic Stacks\nRight click: Create macro",
                     },
                     M = {},
                 },        
             },
+			{
+			    {
+                    E = "Slider",                                                     
+                    MIN = 0, 
+                    MAX = 50,                            
+                    DB = "ManaConservation",
+                    DBV = 40,
+                    ONOFF = false,
+                    L = { 
+                        ANY = "Mana Conservation %",
+                    }, 
+					TT = {
+                        ANY = "Begins conserving the use of mana @ XX Mana % by stopping Holy Shock DPS and using Crusader Strike more economically\nAt 0.5 * (XX Mana %) will stop use of Crusader Strike completely",
+                    },
+                    M = {},
+                },       
+			},
 			{
                 {
                     E = "Dropdown",                                                         
