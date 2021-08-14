@@ -190,6 +190,7 @@ Action[ACTION_CONST_PALADIN_HOLY] = {
     Shadowbreaker = Create({ Type = "Spell", ID = 337812,Hidden = true}),
     Maraad = Create({ Type = "Spell", ID = 234848,Hidden = true}),
     MaraadBuff = Create({ Type = "Spell", ID = 234862,Hidden = true}),
+	MadParagon = Create({ Type = "Spell", ID = 337594,Hidden = true}),
     -- General Legendaries
     
     --Holy Legendaries
@@ -337,6 +338,10 @@ TMW:RegisterCallback("TMW_ACTION_HEALINGENGINE_UNIT_UPDATE", function(callbackEv
             end     
         end
         
+		if Unit("target"):IsExplosives() then
+			thisUnit.Enabled = false
+		end
+		
         if A.InstanceInfo.KeyStone >= 7 and thisUnit.Unit and Unit(thisUnit.Unit):HasDeBuffsStacks(209858) >= GetToggle(2, "Necrotic") and (not AuraIsValid(thisUnit.Unit, "UseDispel", "Dispel") or AuraIsValid(thisUnit.Unit, "UseDispel", "Dispel") and not A.Cleanse:IsReady()) and (not AuraIsValid(thisUnit.Unit, true, "BlessingofFreedom") or AuraIsValid(thisUnit.Unit, true, "BlessingofFreedom") and not A.BlessingofFreedom:IsReady()) then
             thisUnit.isSelectAble = false
         end
@@ -721,9 +726,17 @@ A[3] = function(icon, isMulti)
                 return A.HammerofJustice:Show(icon) 
             end
             
-            if A.ZoneID == 13228 and NPCID == 171887 and A.TurnEvil:IsReady(unitID) and IsUnitEnemy(unitID) and Unit(unitID):HasDeBuffs("Sleep", "Fear", "Disoriented", "Incapacitated") < 10 then
-                return A.TurnEvil:Show(icon)
-            end
+            if Unit(unitID):IsExplosives() then
+				if A.HammerofWrath:IsReady(unitID) then
+					return A.HammerofWrath:Show(icon)
+				elseif A.Judgment:IsReady(unitID) then
+					return A.Judgment:Show(icon)
+				elseif A.CrusaderStrike:IsReady(unitID) then
+					return A.CrusaderStrike:Show(icon)
+				elseif A.HolyShock:IsReady(unitID) and HealingEngine.GetBelowHealthPercentUnits(80, 40) == 0 then
+					return A.HolyShock:Show(icon)
+				end
+			end
             
             if Unit(unitID):HasDeBuffs("BreakAble") == 0 then
                 
@@ -731,7 +744,7 @@ A[3] = function(icon, isMulti)
 					return A.DivineToll:Show(icon)
 				end
 				
-				if A.HammerofWrath:GetCooldown() == 0 and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and A.AshenHallow:GetSpellTimeSinceLastCast() <= 30 and (Unit(unitID):GetRange() <= 20 or (Unit(unitID):GetRange() <= 30 and A.Zone == "arena" or A.InstanceInfo.isRated or A.Zone == "pvp")) 
+				if A.HammerofWrath:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and (A.AshenHallow:GetSpellTimeSinceLastCast() <= 30 or A.MadParagon:HasLegendaryCraftingPower() and Unit(player):HasBuffs(A.AvengingWrath.ID) > 0)
 				and IsUnitEnemy(unitID) and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and not Unit(target):IsDead() then
 					return A.HammerofWrath:Show(icon)
 				end     
@@ -754,7 +767,7 @@ A[3] = function(icon, isMulti)
                     return A.LightofDawn:Show(icon)
                 end
                 
-                if (A.Awakening:IsTalentLearned() and A.GetToggle(2, "LightofDawnDump") and Unit(player):HasBuffs(A.AvengingWrath) > 0 or A.Awakening:IsTalentLearned() and not A.GetToggle(2, "LightofDawnDump") or not A.Awakening:IsTalentLearned()) and A.ShieldoftheRighteous:IsReady(player) and Player:HolyPower() >= A.GetToggle(2, "DumpHP") and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and A.CrusaderStrike:IsInRange(unitID) and IsUnitEnemy(unitID) and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 
+                if (A.Awakening:IsTalentLearned() and A.GetToggle(2, "LightofDawnDump") and Unit(player):HasBuffs(A.AvengingWrath.ID) > 0 or A.Awakening:IsTalentLearned() and not A.GetToggle(2, "LightofDawnDump") or not A.Awakening:IsTalentLearned()) and A.ShieldoftheRighteous:IsReady(player) and Player:HolyPower() >= A.GetToggle(2, "DumpHP") and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and A.CrusaderStrike:IsInRange(unitID) and IsUnitEnemy(unitID) and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 
                 and (HealingEngine.GetBelowHealthPercentUnits(80, 40) < 1 or (HealingEngine.GetBelowHealthPercentUnits(50, 40) < 1 and TeamCache.Friendly.Size <= 2)) then
                     return A.ShieldoftheRighteous:Show(icon)
                 end
@@ -768,14 +781,14 @@ A[3] = function(icon, isMulti)
                 end
                 
                 
-                if ((A.Zone == "pvp" or A.Zone == "arena" or A.InstanceInfo.isRated) or (Player:ManaPercentage() > 40)) and A.HolyShock:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and GetToggle(2, "HolyShockDPS") and Unit(unitID):GetRange() <= 40 and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 then
+                if ((A.Zone == "pvp" or A.Zone == "arena" or A.InstanceInfo.isRated) or (Player:ManaPercentage() > GetToggle(2, "ManaConservation"))) and A.HolyShock:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and GetToggle(2, "HolyShockDPS") and Unit(unitID):GetRange() <= 40 and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 then
                     return A.HolyShock:Show(icon)
                 end
                 
                 if A.CrusaderStrike:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and A.CrusaderStrike:IsInRange(unitID) and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and
-                ((A.CrusadersMight:IsTalentLearned() and ((Player:HolyPower() == 5 and A.HolyShock:GetCooldown() >= 1.0 and A.CrusaderStrike:GetSpellCharges() == 2 and Player:ManaPercentage() > 40) or 
-                            (Player:HolyPower() < 5 and A.HolyShock:GetCooldown() >= 1.0 and Player:ManaPercentage() > 20) or (A.HolyShock:GetCooldown() == 0 and A.CrusaderStrike:GetSpellCharges() == 2 and Player:HolyPower() < 5 and Player:ManaPercentage() > 40))) 
-                    or (not A.CrusadersMight:IsTalentLearned() and Player:HolyPower() < 5 and ((A.Zone == "pvp" or A.Zone == "arena" or A.InstanceInfo.isRated) or (Player:ManaPercentage() > 40))))
+                ((A.CrusadersMight:IsTalentLearned() and ((Player:HolyPower() == 5 and A.HolyShock:GetCooldown() >= 1.0 and A.CrusaderStrike:GetSpellCharges() == 2 and Player:ManaPercentage() > GetToggle(2, "ManaConservation")) or 
+                            (Player:HolyPower() < 5 and A.HolyShock:GetCooldown() >= 1.0 and Player:ManaPercentage() > GetToggle(2, "ManaConservation") * 0.5) or (A.HolyShock:GetCooldown() == 0 and A.CrusaderStrike:GetSpellCharges() == 2 and Player:HolyPower() < 5 and Player:ManaPercentage() > GetToggle(2, "ManaConservation")))) 
+                    or (not A.CrusadersMight:IsTalentLearned() and Player:HolyPower() < 5 and ((A.Zone == "pvp" or A.Zone == "arena" or A.InstanceInfo.isRated) or (Player:ManaPercentage() > GetToggle(2, "ManaConservation")))))
                 then
                     return A.CrusaderStrike:Show(icon)
                 end
@@ -875,7 +888,8 @@ A[3] = function(icon, isMulti)
             end
             
             if inCombat and Unit(player):HasBuffs(A.DivineFavor.ID, true) == 0 and (((Unit(player):IsCastingRemains(A.HolyLight.ID) > Player:Execute_Time(A.HolyLight.ID)/2 or Unit(player):IsCastingRemains(A.FlashofLight.ID) > Player:Execute_Time(A.FlashofLight.ID)/2) and A.HolyShock:IsReady(unitID) and Unit(unitID):HealthDeficit() + Unit(unitID):GetTotalHealAbsorbs() >= (HolyShockHP * StatMultiplier * AvengingWrathMultiplier * ExecutionerMultiplier))
-                or ((Unit(player):IsCastingRemains(A.HolyLight.ID) > 0.5 or Unit(player):IsCastingRemains(A.FlashofLight.ID) > 0.5) and A.WordofGlory:IsReady(unitID) and Unit(unitID):HealthDeficit() + Unit(unitID):GetTotalHealAbsorbs() >= (WordofGloryHP * StatMultiplier * AvengingWrathMultiplier * ExecutionerMultiplier)) or (Unit(player):IsCastingRemains(A.HolyLight.ID) > 0 and Unit(unitID):HealthDeficit() + Unit(unitID):GetTotalHealAbsorbs() < (HolyLightHP * StatMultiplier * AvengingWrathMultiplier * ExecutionerMultiplier)) or (Unit(player):IsCastingRemains(A.FlashofLight.ID) > 0 and Unit(unitID):HealthDeficit() + Unit(unitID):GetTotalHealAbsorbs() < (FlashofLightHP * StatMultiplier * AvengingWrathMultiplier * ExecutionerMultiplier))) then
+                or ((Unit(player):IsCastingRemains(A.HolyLight.ID) > 0.5 or Unit(player):IsCastingRemains(A.FlashofLight.ID) > 0.5) and A.WordofGlory:IsReady(unitID) and Unit(unitID):HealthDeficit() + Unit(unitID):GetTotalHealAbsorbs() >= (WordofGloryHP * StatMultiplier * AvengingWrathMultiplier * ExecutionerMultiplier)) or (Unit(player):IsCastingRemains(A.HolyLight.ID) > 0 and Unit(unitID):HealthDeficit() + Unit(unitID):GetTotalHealAbsorbs() < (HolyLightHP * StatMultiplier * AvengingWrathMultiplier * ExecutionerMultiplier)) 
+				or (HealingEngine.GetBelowHealthPercentUnits(90, 40) > 1 and (Unit(player):IsCastingRemains(A.FlashofLight.ID) > 0 and Unit(unitID):HealthDeficit() + Unit(unitID):GetTotalHealAbsorbs() < (FlashofLightHP * StatMultiplier * AvengingWrathMultiplier * ExecutionerMultiplier)))) then
                 return A:Show(icon, ACTION_CONST_STOPCAST)
             end
             
@@ -1167,7 +1181,7 @@ A[3] = function(icon, isMulti)
             return A.WordofGlory:Show(icon)
         end
         
-        if Unit(player):HasBuffs(A.MaraadBuff.ID) > 0 and MaraadDeficitCheck(1) > 0 then 
+        if Unit(player):HasBuffs(A.MaraadBuff.ID) > 0 and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and MaraadDeficitCheck(1) > 0 then 
             for GUIDs, v in pairs(FriendlyGUIDs) do
                 if Unit(v):HealthDeficit() >= LightofMartyrHP * MaraadMultiplier and Unit(v):HasBuffs(A.BeaconofFaith.ID, true) == 0 and Unit(v):HasBuffs(A.BeaconofLight.ID, true) == 0 then
                     HealingEngine.SetTarget(v, 0.3) -- wtf?    use callback        
@@ -1176,6 +1190,11 @@ A[3] = function(icon, isMulti)
             end     
         end 
         
+		if A.HammerofWrath:IsReady(unitID) and Unit(unitID):HasDeBuffs("BreakAble") == 0 and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and (A.AshenHallow:GetSpellTimeSinceLastCast() <= 30 or A.MadParagon:HasLegendaryCraftingPower() and Unit(player):HasBuffs(A.AvengingWrath.ID) > 0)
+		and (IsUnitEnemy("targettarget") and GetToggle(2, "targettarget") or IsUnitEnemy("mouseover") and GetToggle(2, "WeaveMouseover")) and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and not Unit(target):IsDead() then
+			return A.HammerofWrath:Show(icon)
+		end      
+		
         if A.Consecration:IsReady(player) and A.HallowedGround:IsTalentLearned() and IsUnitFriendly(unitID) and Unit(unitID):GetRange() <= 5 and Unit(unitID):HasDeBuffs(IsSlowDebuff) >= 1 then
             return A.Consecration:Show(icon)
         end
@@ -1184,10 +1203,10 @@ A[3] = function(icon, isMulti)
             return A.ArcaneTorrent:Show(icon)
         end
         
-        if A.HolyShock:IsReady(unitID) and not Unit(unitID):IsDead() and Unit(unitID):HealthPercent() <= 90 and (combatTime == 0 or TeamCacheFriendlyType == "party" and HealingEngine.GetBelowHealthPercentUnits(90, 40) == 1 and Player:HolyPower() < 5 and Player:ManaPercentage() >= 40) then
-            return A.HolyShock:Show(icon)
-        end
-        
+        if A.HolyShock:IsReady(unitID) and not Unit(unitID):IsDead() and Unit(unitID):HealthPercent() <= 90 and (HealingEngine.GetBelowHealthPercentUnits(90, 40) == 1 and Player:ManaPercentage() >= 50 and Player:HolyPower() < 5) and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 then
+				return A.HolyShock:Show(icon)
+		end
+		
         if A.WordofGlory:IsReady(unitID) and not Unit(unitID):IsDead() and Unit(unitID):HealthPercent() <= 90 and combatTime == 0 then
             return A.WordofGlory:Show(icon)
         end
@@ -1239,17 +1258,12 @@ A[3] = function(icon, isMulti)
             
             if Unit(unitID):HasDeBuffs("BreakAble") == 0 then
                 
-				if A.HammerofWrath:GetCooldown() == 0 and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and A.AshenHallow:GetSpellTimeSinceLastCast() <= 30 and (Unit(unitID):GetRange() <= 20 or (Unit(unitID):GetRange() <= 30 and A.Zone == "arena" or A.InstanceInfo.isRated or A.Zone == "pvp")) 
-				and IsUnitEnemy(unitID) and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and not Unit(target):IsDead() then
-					return A.HammerofWrath:Show(icon)
-				end      
-				
-                if Player:ManaPercentage() > 20 and A.CrusaderStrike:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and A.CrusaderStrike:IsInRange(unitID) and IsUnitEnemy(unitID) and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 
-                and not Unit(target):IsDead() and ((A.CrusadersMight:IsTalentLearned() and ((Player:HolyPower() == 5 and A.HolyShock:GetCooldown() >= 1.0 and A.CrusaderStrike:GetSpellCharges() == 2 and Player:ManaPercentage() > 40) or (Player:HolyPower() < 5 and A.HolyShock:GetCooldown() >= 1.0) or (A.HolyShock:GetCooldown() == 0 and A.CrusaderStrike:GetSpellCharges() == 2 and Player:HolyPower() < 5 and Player:ManaPercentage() > 40))) or (not A.CrusadersMight:IsTalentLearned() and Player:HolyPower() < 5 and Player:ManaPercentage() > 40)) then
+                if Player:ManaPercentage() > GetToggle(2, "ManaConservation") * 0.5 and A.CrusaderStrike:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and A.CrusaderStrike:IsInRange(unitID) and IsUnitEnemy(unitID) and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 
+                and not Unit(target):IsDead() and ((A.CrusadersMight:IsTalentLearned() and ((Player:HolyPower() == 5 and A.HolyShock:GetCooldown() >= 1.0 and A.CrusaderStrike:GetSpellCharges() == 2 and Player:ManaPercentage() > GetToggle(2, "ManaConservation")) or (Player:HolyPower() < 5 and A.HolyShock:GetCooldown() >= 1.0) or (A.HolyShock:GetCooldown() == 0 and A.CrusaderStrike:GetSpellCharges() == 2 and Player:HolyPower() < 5 and Player:ManaPercentage() > GetToggle(2, "ManaConservation")))) or (not A.CrusadersMight:IsTalentLearned() and Player:HolyPower() < 5 and Player:ManaPercentage() > GetToggle(2, "ManaConservation"))) then
                     return A.CrusaderStrike:Show(icon)        
                 end
                 
-                if A.HammerofWrath:GetCooldown() == 0 and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and (Unit(unitID):HealthPercent() <= 20 or Unit(player):HasBuffs(A.AvengingWrath.ID, true) > 0) and (Unit(unitID):GetRange() <= 10 or (Unit(unitID):GetRange() <= 30 and A.Zone == "arena" or A.InstanceInfo.isRated or A.Zone == "pvp")) 
+                if A.HammerofWrath:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and (Unit(unitID):HealthPercent() <= 20 or Unit(player):HasBuffs(A.AvengingWrath.ID, true) > 0) 
                 and IsUnitEnemy(unitID) and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and not Unit(target):IsDead() then
                     return A.HammerofWrath:Show(icon)
                 end            
@@ -1316,14 +1330,20 @@ A[3] = function(icon, isMulti)
             
         end
         
-        if Action.GetToggle(2, "AutoTarget") and (not Unit("target"):IsExists() or IsUnitFriendly("target") or Unit("target"):IsEnemy() and (Unit("target"):HasDeBuffs("BreakAble") > 0 or Unit("target"):CombatTime() == 0))
-        and ((not A.IsInPvP and MultiUnits:GetByRangeInCombat(nil, 1) >= 1) or A.Zone == "pvp") then  
-            for val in pairs(ActiveUnitPlates) do
-                if HealingEngine.GetBelowHealthPercentUnits(90, 40) == 0 and Unit(val):GetRange() <= 5 and ((UnitCanAttack("player", val) and UnitThreatSituation("player", val) ~= nil) or Unit(val):IsDummy()) 
-                and (((HealingEngine.GetDeBuffsCount(PVEDispelDebuffs) == 0 and HealingEngine.GetDeBuffsCount(PVPDispelDebuffs) == 0) or ((HealingEngine.GetDeBuffsCount(PVEDispelDebuffs) > 0 or HealingEngine.GetDeBuffsCount(PVPDispelDebuffs) > 0) and not A.Cleanse:IsReady())) and ((HealingEngine.GetDeBuffsCount(PVEBOFDebuffs) == 0 and HealingEngine.GetDeBuffsCount(PVPBOFDebuffs) == 0) or ((HealingEngine.GetDeBuffsCount(PVEBOFDebuffs) > 0 or HealingEngine.GetDeBuffsCount(PVPBOFDebuffs) > 0) and not A.BlessingofFreedom:IsReady()))) then
-                    return A:Show(icon, ACTION_CONST_AUTOTARGET)
-                end
-            end
+		if HealingEngine.GetBelowHealthPercentUnits(90, 40) == 0 and (((HealingEngine.GetDeBuffsCount(PVEDispelDebuffs) == 0 and HealingEngine.GetDeBuffsCount(PVPDispelDebuffs) == 0) or ((HealingEngine.GetDeBuffsCount(PVEDispelDebuffs) > 0 or HealingEngine.GetDeBuffsCount(PVPDispelDebuffs) > 0) 
+		and not A.Cleanse:IsReady())) and ((HealingEngine.GetDeBuffsCount(PVEBOFDebuffs) == 0 and HealingEngine.GetDeBuffsCount(PVPBOFDebuffs) == 0) or ((HealingEngine.GetDeBuffsCount(PVEBOFDebuffs) > 0 or HealingEngine.GetDeBuffsCount(PVPBOFDebuffs) > 0) 
+		and not A.BlessingofFreedom:IsReady()))) then
+			if GetToggle(2, "AutoTarget") and Unit(player):CombatTime() > 0 and not Unit(target):IsExplosives() and not Unit(target):IsCondemnedDemon() and (not Unit(target):IsExists() or IsUnitFriendly(target) or Unit(target):IsEnemy()) then 
+				if A.IsExplosivesExists() or A.IsCondemnedDemonsExists() then
+					return A:Show(icon, ACTION_CONST_AUTOTARGET)			  				 
+				end 
+				
+				if  (not Unit(target):IsExists() or IsUnitFriendly(target) or (A.Zone ~= "none" and not A.IsInPvP and not Unit(target):IsCracklingShard() and Unit(target):CombatTime() == 0 and Unit(target):IsEnemy() and Unit(target):HealthPercent() >= 100)) 	-- No existed or switch target in PvE if we accidentally selected out of combat unit  			
+					and ((not A.IsInPvP and MultiUnits:GetByRangeInCombat(nil, 1) >= 1) or A.Zone == "pvp") 																																-- If rotation mode is PvE and in 40 yards any in combat enemy (exception target) or we're on (R)BG 
+				then 
+					return A:Show(icon, ACTION_CONST_AUTOTARGET)
+				end 
+			end 
         end    
         
     end    
@@ -1418,6 +1438,11 @@ A[3] = function(icon, isMulti)
                     return A.HolyLight:Show(icon)
                 end    
                 
+				if not Unit(unitID):IsDead() and Unit(player):HasBuffs(A.DivineFavor.ID, true) == 0 and Unit(unitID):HealthPercent() <= 90 and (HealingEngine.GetBelowHealthPercentUnits(90, 40) == 1 and Player:ManaPercentage() >= 50) and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0
+				and A.FlashofLight:IsReady(unitID) and Player:Execute_Time(A.FlashofLight.ID) - A.HolyShock:GetCooldown() <= Player:Execute_Time(A.FlashofLight.ID)/2 and Unit(player):HasBuffs(A.InfusionofLightBuff.ID) > Player:Execute_Time(A.FlashofLight.ID) and Unit(player):GetCurrentSpeed() == 0 then
+					return A.FlashofLight:Show(icon)
+				end
+				
             end
             
         end
