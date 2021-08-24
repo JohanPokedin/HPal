@@ -1129,7 +1129,7 @@ A[3] = function(icon, isMulti)
             end        
 			
 			-- #3 HPvE BoP
-            if A.BlessingofProtection:IsReady(unitID) and Unit(unitID):HasBuffs(A.BlessingofProtection.ID) == 0 and Unit(unitID):HasDeBuffs(A.Forbearance.ID) == 0 and not Unit(unitID):IsPet() and not Unit(unitID):IsTank()
+            if A.BlessingofProtection:IsReady(unitID) and Unit(unitID):HasBuffs(A.BlessingofProtection.ID) == 0 and Unit(unitID):HasDeBuffs(A.Forbearance.ID) == 0 and not Unit(unitID):IsPet() and not Unit(unitID):IsTank() and
             useShields and not Unit(unitID):IsDead() and
             (
                 -- MouseOver
