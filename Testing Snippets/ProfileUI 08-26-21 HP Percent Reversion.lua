@@ -481,7 +481,7 @@ A.Data.ProfileUI = {
                     DBV = 70,
                     ONOFF = true,
                     L = { 
-                        ANY = A.GetSpellInfo(82326) .. " (%HP) w/ Divine Favor (PvP)",
+                        ANY = A.GetSpellInfo(82326) .. " (%HP) w/ DF (PvP)",
                     }, 
                     M = {},
                 },
