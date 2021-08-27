@@ -438,19 +438,7 @@ A.Data.ProfileUI = {
 						ANY = "If Awakening is talented, CR will dump excess Holy Power at 5 HP into Light of Dawn to proc Avenging Wrath then use SotR as normal"
 					},
                     M = {},
-                },     
-				{
-                    E = "Checkbox", 
-                    DB = "LOTMTopOff",
-                    DBV = true,
-                    L = { 
-                        ANY = "Use\nLight of the Martyr Top-Off"
-                    },
-					TT = {
-						ANY = "Will use LOTM when in-combat to heal allies to >= 90% HP when own HP >= 90% and only 1 ally is <= 90% HP and greater than any other heal spell deficits"
-					},
-                    M = {},
-                },    
+                },       
 			},
             { -- [7] 
                 {
@@ -461,28 +449,35 @@ A.Data.ProfileUI = {
                 },
             },            
             { -- [3]     
-                {
-                    E = "Dropdown",                                                         
-                    OT = {   
-                        { text = "Tooltip", value = 1},                    
-                        { text = "Tooltip - 5%", value = 0.95},
-                        { text = "Tooltip - 10%", value = 0.9},
-                    },
-                    DB = "DeficitToggle",
-                    DBV = 1,
-                    L = { 
-                        ANY = "HPDeficit Factoring",
-                    }, 
-                    TT = { 
-                        ANY = "Deficits for WoG, HS, HL, FOL, LOTM, BF will be calculated according to tooltip or option for tooltip times multiplier."
-                    },                    
-                    M = {},
-                },  
-								{
+				{
                     E = "Slider",                                                     
                     MIN = -1, 
                     MAX = 100,                            
-                    DB = "LightofMartyrHP%",
+                    DB = "WordofGloryHP",
+                    DBV = 85,
+                    ONOFF = true,
+                    L = { 
+                        ANY = A.GetSpellInfo(85673) .. " (%HP)",
+                    }, 
+                    M = {},
+                },
+				{
+                    E = "Slider",                                                     
+                    MIN = -1, 
+                    MAX = 100,                            
+                    DB = "HolyShockHP",
+                    DBV = 90,
+                    ONOFF = true,
+                    L = { 
+                        ANY = A.GetSpellInfo(20473) .. " (%HP)",
+                    }, 
+                    M = {},
+                },
+				{
+                    E = "Slider",                                                     
+                    MIN = -1, 
+                    MAX = 100,                            
+                    DB = "DFHolyLightHP",
                     DBV = 70,
                     ONOFF = true,
                     L = { 
@@ -494,9 +489,59 @@ A.Data.ProfileUI = {
 			{
 				{
                     E = "Slider",                                                     
+                    MIN = -1, 
+                    MAX = 100,                            
+                    DB = "BestowFaithHP",
+                    DBV = 90,
+                    ONOFF = true,
+                    L = { 
+                        ANY = A.GetSpellInfo(223306) .. " (%HP)",
+                    }, 
+                    M = {},
+                },
+				{
+                    E = "Slider",                                                     
+                    MIN = -1, 
+                    MAX = 100,                            
+                    DB = "HolyLightHP",
+                    DBV = 85,
+                    ONOFF = true,
+                    L = { 
+                        ANY = A.GetSpellInfo(82326) .. " (%HP)",
+                    }, 
+                    M = {},
+                },
+				{
+                    E = "Slider",                                                     
+                    MIN = -1, 
+                    MAX = 100,                            
+                    DB = "HolyPrismHP",
+                    DBV = 90,
+                    ONOFF = true,
+                    L = { 
+                        ANY = A.GetSpellInfo(114165) .. " (%HP)",
+                    }, 
+                    M = {},
+                },
+            },
+			{
+				{
+                    E = "Slider",                                                     
+                    MIN = -1, 
+                    MAX = 100,                            
+                    DB = "LightofMartyrHP",
+                    DBV = 70,
+                    ONOFF = true,
+                    L = { 
+                        ANY = A.GetSpellInfo(183998) .. " (%HP)",
+                    }, 
+                    M = {},
+                },
+				{
+                    E = "Slider",                                                     
                     MIN = 0, 
                     MAX = 100,                            
-                    DB = "FlashofLightHP%",
+                    DB = "FlashofLightHP",
                     DBV = 100,
                     ONOFF = false,
                     L = { 
@@ -653,22 +698,7 @@ A.Data.ProfileUI = {
                     M = {},
                 },    
             },
-            {
-                {
-                    E = "Slider",                                                     
-                    MIN = 0, 
-                    MAX = 100,                            
-                    DB = "AllySwapHP",
-                    DBV = 89,
-                    ONOFF = false,
-                    L = { 
-                        ANY = "Target Stop - Ally Swap (%HP)",
-                    }, 
-					TT = {
-                        ANY = "Stops Healing Engine from swapping off @enemy target if all allies have >= XX% HP\n\nRight click: Create macro",
-                    },
-                    M = {},
-                },            
+            {          
                 {
                     E = "Slider",                                                     
                     MIN = 0, 
