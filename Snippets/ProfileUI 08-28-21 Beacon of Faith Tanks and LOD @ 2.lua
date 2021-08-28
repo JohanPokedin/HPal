@@ -571,7 +571,7 @@ A.Data.ProfileUI = {
             {
                 {
                     E = "Slider",                                                     
-                    MIN = 3, 
+                    MIN = 2, 
                     MAX = 10,                            
                     DB = "LightofDawnUnits",
                     DBV = 4,
@@ -775,7 +775,8 @@ A.Data.ProfileUI = {
                     OT = {   
                         { text = "Tanking Units", value = "Tanking Units" },                    
                         { text = "Beacon of Faith + Saved By the Light PVP", value = "Beacon of Faith + Saved By the Light" },
-                        { text = "Beacon of Faith PVE (Self and Tank)", value = "Beacon of Faith" },
+                        { text = "Beacon of Faith PVE (2x Tank)", value = "Beacon of Faith 2" },
+						{ text = "Beacon of Faith PVE (Self and Tank)", value = "Beacon of Faith" },
                         { text = "Self", value = "Self" },
                     },
                     DB = "BeaconWorkMode",
