@@ -261,6 +261,7 @@ local function RotationsVariables()
 	FlashofLightHP = GetToggle(2, "FlashofLightHP")
 	HolyPrismHP = GetToggle(2, "HolyPrismHP")
 	LightofMartyr = GetToggle(2, "LightofDawnHP")
+	DFHolyLightHP = GetToggle(2, "DFHolyLightHP")
     if A.Shadowbreaker:HasLegendaryCraftingPower() then
         LightofDawnRange = 40
     elseif not A.Shadowbreaker:HasLegendaryCraftingPower() then
@@ -383,21 +384,6 @@ SelfDefensives = A.MakeFunctionCachedStatic(SelfDefensives)
 
 local ipairs, pairs = ipairs, pairs
 local FriendlyGUIDs = TeamCache.Friendly.GUIDs
-
-local function MaraadDeficitCheck(stop)
-    local total = 0
-    for _, p in ipairs(SortedUnitIDs) do
-        if p.isPlayer and (Unit(p.Unit):HasBuffs(A.BeaconofFaith.ID, true) > 0 or Unit(p.Unit):HasBuffs(A.BeaconofLight.ID, true) > 0) and p.HP < LightofMartyrHP then
-            total = total + 1
-            
-            if stop and total >= stop then 
-                break 
-            end 
-        end
-    end
-    
-    return total 
-end
 
 -- [3] Single Rotation
 A[3] = function(icon, isMulti)
@@ -869,7 +855,7 @@ A[3] = function(icon, isMulti)
         end
         
         --Holy Light Divine Favor w/o Infusion
-        if A.HolyLight:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) < 0.8 and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and Unit(player):HasBuffs(A.DivineFavor.ID, true) > 0 and Unit(unitID):TimeToDie() <= 5 and Unit(unitID):HealthPercent() <= GetToggle(2, "DFHolyLightHP") and not Unit(unitID):IsDead() and Unit(player):GetCurrentSpeed() == 0 then
+        if A.HolyLight:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) < 0.8 and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and Unit(player):HasBuffs(A.DivineFavor.ID, true) > 0 and Unit(unitID):TimeToDie() <= 5 and Unit(unitID):HealthPercent() <= DFHolyLightHP and not Unit(unitID):IsDead() and Unit(player):GetCurrentSpeed() == 0 then
             return A.HolyLight:Show(icon)
         end    
         
@@ -881,14 +867,23 @@ A[3] = function(icon, isMulti)
         end
         
         -- Beacon of Light - Tank
-        if not A.BeaconofVirtue:IsTalentLearned() and A.BeaconofLight:IsReady() and BeaconWorkMode == "Tanking Units" then
+        if not A.BeaconofVirtue:IsTalentLearned() and A.BeaconofLight:IsReady(unitID) and BeaconWorkMode == "Tanking Units" then
             if Unit(unitID):Role("TANK") and Unit(unitID):HasBuffs(A.BeaconofLight.ID, true) == 0 and HealingEngine.GetBuffsCount(A.BeaconofLight.ID, 0, true) == 0 then
                 return A.BeaconofLight:Show(icon)
             end
         end
+		
+		-- Beacon of Faith PVE - 2x Tank
+        if not A.BeaconofVirtue:IsTalentLearned() and BeaconWorkMode == "Beacon of Faith 2" then
+            if A.BeaconofLight:IsReady(unitID) and Unit(unitID):Role("TANK") and Unit(unitID):HasBuffs(A.BeaconofLight.ID, true) == 0 and Unit(unitID):HasBuffs(A.BeaconofFaith.ID, true) == 0 and HealingEngine.GetBuffsCount(A.BeaconofLight.ID, 0, true) == 0 then
+                return A.BeaconofLight:Show(icon)
+            end
+			if A.BeaconofFaith:IsReady(unitID) and Unit(unitID):Role("TANK") and Unit(unitID):HasBuffs(A.BeaconofLight.ID, true) == 0 and Unit(unitID):HasBuffs(A.BeaconofFaith.ID, true) == 0 and HealingEngine.GetBuffsCount(A.BeaconofFaith.ID, 0, true) == 0 then
+                return A.BeaconofFaith:Show(icon)
+			end
+		end
         
         -- Beacon of Faith PVE
-        
         if not A.BeaconofVirtue:IsTalentLearned() and A.BeaconofFaith:IsTalentLearned() and BeaconWorkMode == "Beacon of Faith" then
             if UnitIsUnit(unitID, player) and A.BeaconofFaith:IsReady(unitID) and Unit(player):HasBuffs(A.BeaconofFaith.ID, true) == 0 then
                 return A.BeaconofFaith:Show(icon)
@@ -1102,6 +1097,10 @@ A[3] = function(icon, isMulti)
             
         end
         
+		if A.LightofMartyr:IsReady(unitID) and Unit(player):HasBuffsStacks(A.MaraadBuff.ID) > 2 and Unit(unitID):HealthPercent() < LightofMartyrHP and Player:HolyPower() >= 3 and HealingEngine.GetBelowHealthPercentUnits(LightofDawnHP, 15) >= LightofDawnUnits then
+			return A.LightofMartyr:Show(icon)
+		end		
+		
         if A.LightofDawn:IsReady(unitID) and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and not Unit(unitID):IsDead() and TeamCacheFriendlyType == "raid" and UseLightofDawn and HealingEngine.GetBelowHealthPercentUnits(LightofDawnHP, 15) >= LightofDawnUnits and HealingEngine.GetBelowHealthPercentUnits(ForceWoGHP, 40) == 0 then
             return A.LightofDawn:Show(icon)
         end
@@ -1125,14 +1124,18 @@ A[3] = function(icon, isMulti)
             return A.WordofGlory:Show(icon)
         end
         
-        if Unit(player):HasBuffs(A.MaraadBuff.ID) > 0 and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and MaraadDeficitCheck(1) > 0 then 
-            for GUIDs, v in pairs(FriendlyGUIDs) do
-                if Unit(v):HealthPercent() < LightofMartyrHP and Unit(v):HasBuffs(A.BeaconofFaith.ID, true) == 0 and Unit(v):HasBuffs(A.BeaconofLight.ID, true) == 0 then
-                    HealingEngine.SetTarget(v, 0.3) -- wtf?    use callback        
-                    return A.LightofMartyr:Show(icon)
-                end
-            end     
-        end 
+		if A.Maraad:HasLegendaryCraftingPower() and Unit(player):HasBuffsStacks(A.MaraadBuff.ID) > 0 then
+			for i = 1, #getmembersAll do 
+				if Unit(getmembersAll[i].Unit):GetRange() <= 40 and not Unit(getmembersAll[i].Unit):IsDead() and (Unit(getmembersAll[i].Unit):HasBuffs(A.BeaconofLight.ID, true) > 0 or Unit(getmembersAll[i].Unit):HasBuffs(A.BeaconofFaith.ID, true) > 0) and Unit(getmembersAll[i].Unit):HealthPercent() < LightofMartyrHP then
+					for x = 1, #getmembersAll do
+						if Unit(getmembersAll[x].Unit):GetRange() <= 40 and A.LightofMartyr:IsReady(getmembersAll[x].Unit) and Unit(getmembersAll[x].Unit):HealthPercent() < LightofMartyrHP then
+							HealingEngine.SetTarget(getmembersAll[x].Unit, 0.5)
+							return A.LightofMartyr:Show(icon)
+						end
+					end
+				end                
+			end
+		end
         
 		if A.HammerofWrath:IsReady(targettarget) and Unit(targettarget):HasDeBuffs("BreakAble") == 0 and Unit(player):HasDeBuffs(A.Mindgames.ID) == 0 and (A.AshenHallow:GetSpellTimeSinceLastCast() <= 30 or Unit(player):HasBuffs(A.AvengingWrath.ID) > 0)
 		and Unit(unitID):HasDeBuffs(A.Cyclone.ID) == 0 and not Unit(target):IsDead() then
@@ -1178,7 +1181,7 @@ A[3] = function(icon, isMulti)
         if A.Zone == "pvp" or A.Zone == "arena" or A.InstanceInfo.isRated or inCombat then
             
             local useCC = Action.InterruptIsValid(unitID)
-            if useCC and not CCImmune[NPCID1] and Unit(unitID):HasDeBuffs({"Silenced", "Stuned", "Sleep", "Fear", "Disoriented", "Incapacitated"}) == 0 and Unit(unitID):HasBuffs(A.Sanguine.ID) == 0 and Unit(unitID):IsControlAble("stun") and A.HammerofJustice:IsReady(unitID) and Unit(unitID):GetDR("stun") > 0 and Unit(unitID):GetRange() <= 10 and A.HammerofJustice:AbsentImun(unitID, Temp.TotalAndPhysAndCC) and not Unit(unitID):IsBoss() and IsUnitEnemy(unitID) and not Unit(target):IsDead() and Unit(unitID):CanInterrupt(true, nil, 20, 85)
+            if useCC and not CCImmune[NPCID1] and Unit(unitID):HasDeBuffs({"Silenced", "Stuned", "Sleep", "Fear", "Disoriented", "Incapacitated"}) == 0 and Unit(unitID):HasBuffs(A.Sanguine.ID) == 0 and A.HammerofJustice:IsReady(unitID) and Unit(unitID):GetDR("stun") > 0 and Unit(unitID):GetRange() <= 10 and A.HammerofJustice:AbsentImun(unitID, Temp.TotalAndPhysAndCC) and not Unit(unitID):IsBoss() and IsUnitEnemy(unitID) and not Unit(target):IsDead() and Unit(unitID):CanInterrupt(true, nil, 20, 85)
             then 
                 return A.HammerofJustice:Show(icon)       
             end       
@@ -1187,7 +1190,7 @@ A[3] = function(icon, isMulti)
                 return A.HammerofJustice:Show(icon)       
             end                     
             
-            if useCC and not CCImmune[NPCID1] and Unit(unitID):HasDeBuffs({"Silenced", "Stuned", "Sleep", "Fear", "Disoriented", "Incapacitated"}) == 0 and Unit(unitID):IsControlAble("disorient") and A.BlindingLight:IsReady(unitID) and Unit(unitID):GetDR("disorient") > 0 and Unit(unitID):GetRange() <= 10 and A.BlindingLight:AbsentImun(unitID, Temp.TotalAndPhysAndCC) and not Unit(unitID):IsBoss() and IsUnitEnemy(unitID) and not Unit(target):IsDead() and Unit(unitID):CanInterrupt(true, nil, 20, 85)
+            if useCC and not CCImmune[NPCID1] and Unit(unitID):HasDeBuffs({"Silenced", "Stuned", "Sleep", "Fear", "Disoriented", "Incapacitated"}) == 0 and A.BlindingLight:IsReady(unitID) and Unit(unitID):GetDR("disorient") > 0 and Unit(unitID):GetRange() <= 10 and A.BlindingLight:AbsentImun(unitID, Temp.TotalAndPhysAndCC) and not Unit(unitID):IsBoss() and IsUnitEnemy(unitID) and not Unit(target):IsDead() and Unit(unitID):CanInterrupt(true, nil, 20, 85)
             then 
                 return A.BlindingLight:Show(icon)       
             end            
